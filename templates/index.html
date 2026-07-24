@@ -148,7 +148,12 @@
     border-radius: 4px;
     padding: 20px;
     position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, transform 0.15s;
   }
+  .actif-card:hover { border-color: var(--sky); transform: translateY(-2px); }
   .actif-card .pulse {
     width: 8px; height: 8px; border-radius: 50%;
     background: #4ADE80; display: inline-block; margin-right: 8px;
@@ -173,7 +178,11 @@
     gap: 18px;
     padding: 18px 0;
     border-bottom: 1px solid var(--surface-line);
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left 0.15s;
   }
+  .rank-row:hover { padding-left: 8px; }
   .rank-row:first-child { padding-top: 0; }
   .rank-num { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--muted); }
   .rank-row.gold .rank-num { color: var(--gold); }
@@ -215,6 +224,7 @@
     <a href="#actifs">En service</a>
     <a href="#classement">Classement</a>
     <a href="#historique">Historique</a>
+    <a href="/commandes">Commandes</a>
   </div>
 </nav>
 
@@ -244,10 +254,10 @@
   {% if actifs %}
   <div class="actifs-grid">
     {% for a in actifs %}
-    <div class="actif-card">
+    <a class="actif-card" href="/conducteur/{{ a.conducteur }}">
       <div class="ligne"><span class="pulse"></span>Ligne {{ a.ligne }}</div>
       <div class="meta">{{ a.conducteur }}<br>{{ a.bus }} · départ {{ a.depot }}<br>depuis {{ a.arret_depart }} à {{ a.heure_debut }}</div>
-    </div>
+    </a>
     {% endfor %}
   </div>
   {% else %}
@@ -264,12 +274,12 @@
   {% if classement %}
   <div class="rank-list">
     {% for c in classement %}
-    <div class="rank-row {% if loop.index == 1 %}gold{% endif %}">
+    <a class="rank-row {% if loop.index == 1 %}gold{% endif %}" href="/conducteur/{{ c.nom }}">
       <div class="rank-num">{{ '%02d'|format(loop.index) }}</div>
       <div class="rank-name">{{ c.nom }}</div>
       <div class="rank-stat">{{ c.temps }}<span class="lbl">temps total</span></div>
       <div class="rank-stat">{{ c.services }}<span class="lbl">services</span></div>
-    </div>
+    </a>
     {% endfor %}
   </div>
   {% else %}
@@ -293,7 +303,7 @@
         {% for h in historique %}
         <tr>
           <td>{{ h.date }}</td>
-          <td>{{ h.conducteur }}</td>
+          <td><a href="/conducteur/{{ h.conducteur }}">{{ h.conducteur }}</a></td>
           <td class="trajet">L{{ h.ligne }} · {{ h.arret_depart }} → {{ h.arret_fin }}</td>
           <td>{{ h.duree }}</td>
           <td>{{ h.details }}</td>
@@ -313,5 +323,4 @@
 </footer>
 
 </body>
-  </html>
-  
+</html>
