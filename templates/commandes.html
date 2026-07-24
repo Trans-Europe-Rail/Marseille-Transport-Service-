@@ -47,6 +47,13 @@
     padding: 50px 6vw; display: flex; justify-content: space-between; align-items: center;
     color: var(--muted); font-size: 0.85rem; flex-wrap: wrap; gap: 12px;
   }
+
+  .discord-btn {
+    background: #5865F2; color: #fff; padding: 8px 16px; border-radius: 20px;
+    font-size: 0.85rem; font-weight: 500; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px; transition: filter 0.15s;
+  }
+  .discord-btn:hover { filter: brightness(1.1); }
 </style>
 </head>
 <body>
@@ -58,6 +65,7 @@
     <a href="/#classement">Classement</a>
     <a href="/#historique">Historique</a>
     <a href="/commandes" class="active">Commandes</a>
+    <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
   </div>
 </nav>
 
@@ -81,7 +89,7 @@
 {% endfor %}
 
 <footer>
-  <div>Marseille Transport Service — réseau privé</div>
+  <div>© 2026 Trans_Europe_Rail — Marseille Transport Service</div>
   <div class="mono"><a href="/">← Retour au tableau de bord</a></div>
 </footer>
 
