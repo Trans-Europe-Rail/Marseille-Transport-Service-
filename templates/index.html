@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marseille Transport Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1D33;
+    --navy-deep: #071526;
+    --surface: #12293F;
+    --surface-line: #1E3A54;
+    --gold: #FFC857;
+    --sky: #4FA5D8;
+    --paper: #F2F0E9;
+    --muted: #7C93A8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--paper);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+
+  .display {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+  }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 6vw;
+    position: sticky;
+    top: 0;
+    background: rgba(11,29,51,0.85);
+    backdrop-filter: blur(10px);
+    z-index: 50;
+    border-bottom: 1px solid var(--surface-line);
+  }
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+  }
+  .brand span { color: var(--gold); }
+  nav .links { display: flex; gap: 28px; font-size: 0.9rem; color: var(--muted); }
+  nav .links a:hover { color: var(--paper); }
+  @media (max-width: 640px) { nav .links { display: none; } }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    padding: 100px 6vw 80px;
+    overflow: hidden;
+  }
+  .hero .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.6rem);
+    font-weight: 600;
+    line-height: 1.02;
+    max-width: 14ch;
+    letter-spacing: -0.01em;
+  }
+  .hero .lede {
+    margin-top: 26px;
+    max-width: 46ch;
+    color: var(--muted);
+    font-size: 1.08rem;
+  }
+
+  /* signature line-map motif */
+  .linemap {
+    margin-top: 64px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .stop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .stop .dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--sky);
+    border: 3px solid var(--navy);
+    box-shadow: 0 0 0 2px var(--surface-line);
+    z-index: 2;
+  }
+  .stop.terminus .dot { background: var(--gold); width: 18px; height: 18px; }
+  .stop .label {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .track {
+    position: absolute;
+    top: 6px;
+    left: -50%;
+    width: 100%;
+    height: 3px;
+    background: var(--surface-line);
+    z-index: 1;
+  }
+  .stop:first-child .track { display: none; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section { padding: 70px 6vw; border-top: 1px solid var(--surface-line); }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 40px; flex-wrap: wrap; gap: 10px; }
+  .section-head h2 { font-family: 'Fraunces', serif; font-size: 1.9rem; font-weight: 600; }
+  .section-head .count { font-family: 'IBM Plex Mono', monospace; color: var(--muted); font-size: 0.85rem; }
+
+  /* ---------- ACTIFS ---------- */
+  .actifs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .actif-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-line);
+    border-radius: 4px;
+    padding: 20px;
+    position: relative;
+  }
+  .actif-card .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #4ADE80; display: inline-block; margin-right: 8px;
+    box-shadow: 0 0 0 0 rgba(74,222,128,0.6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+    100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+  }
+  .actif-card .ligne { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; }
+  .actif-card .meta { color: var(--muted); font-size: 0.85rem; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; }
+  .empty-state { color: var(--muted); font-style: italic; padding: 30px 0; }
+
+  /* ---------- CLASSEMENT ---------- */
+  .rank-list { display: flex; flex-direction: column; }
+  .rank-row {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--surface-line);
+  }
+  .rank-row:first-child { padding-top: 0; }
+  .rank-num { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--muted); }
+  .rank-row.gold .rank-num { color: var(--gold); }
+  .rank-name { font-weight: 500; }
+  .rank-stat { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--sky); text-align: right; }
+  .rank-stat .lbl { color: var(--muted); display: block; font-size: 0.7rem; }
+
+  /* ---------- HISTORIQUE ---------- */
+  .hist-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .hist-table th {
+    text-align: left; color: var(--muted); font-weight: 500;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 10px 14px; border-bottom: 1px solid var(--surface-line);
+  }
+  .hist-table td { padding: 14px; border-bottom: 1px solid var(--surface-line); }
+  .hist-table tr:last-child td { border-bottom: none; }
+  .hist-table .trajet { color: var(--sky); font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; }
+  .hist-table-wrap { overflow-x: auto; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 50px 6vw;
+    border-top: 1px solid var(--surface-line);
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 0.85rem; flex-wrap: wrap; gap: 12px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .actif-card .pulse { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">Marseille <span>Transport</span> Service</div>
+  <div class="links">
+    <a href="#actifs">En service</a>
+    <a href="#classement">Classement</a>
+    <a href="#historique">Historique</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">Réseau privé · Simulation OMSI 2</div>
+  <h1 class="display">Le réseau bouge,<br>on le suit en direct.</h1>
+  <p class="lede">Tableau de bord public de la compagnie : conducteurs en service, classement, et historique complet de chaque ligne, mis à jour en temps réel.</p>
+
+  <div class="linemap">
+    {% set stops = ["Vieux-Port", "Castellane", "Prado", "La Timone", "Saint-Charles", "Joliette"] %}
+    {% for s in stops %}
+    <div class="stop {% if loop.last %}terminus{% endif %}">
+      <div class="track"></div>
+      <div class="dot"></div>
+      <div class="label">{{ s }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<section id="actifs">
+  <div class="section-head">
+    <h2 class="display">En service maintenant</h2>
+    <span class="count mono">{{ actifs|length }} conducteur{{ 's' if actifs|length != 1 else '' }} actif{{ 's' if actifs|length != 1 else '' }}</span>
+  </div>
+
+  {% if actifs %}
+  <div class="actifs-grid">
+    {% for a in actifs %}
+    <div class="actif-card">
+      <div class="ligne"><span class="pulse"></span>Ligne {{ a.ligne }}</div>
+      <div class="meta">{{ a.conducteur }}<br>{{ a.bus }} · départ {{ a.depot }}<br>depuis {{ a.arret_depart }} à {{ a.heure_debut }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-state">Aucun conducteur en service pour le moment. Le prochain départ n'attend qu'un `/debut`.</p>
+  {% endif %}
+</section>
+
+<section id="classement">
+  <div class="section-head">
+    <h2 class="display">Classement des conducteurs</h2>
+    <span class="count mono">Top {{ classement|length }}</span>
+  </div>
+
+  {% if classement %}
+  <div class="rank-list">
+    {% for c in classement %}
+    <div class="rank-row {% if loop.index == 1 %}gold{% endif %}">
+      <div class="rank-num">{{ '%02d'|format(loop.index) }}</div>
+      <div class="rank-name">{{ c.nom }}</div>
+      <div class="rank-stat">{{ c.temps }}<span class="lbl">temps total</span></div>
+      <div class="rank-stat">{{ c.services }}<span class="lbl">services</span></div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-state">Aucune statistique enregistrée pour le moment.</p>
+  {% endif %}
+</section>
+
+<section id="historique">
+  <div class="section-head">
+    <h2 class="display">Derniers services</h2>
+    <span class="count mono">5 plus récents</span>
+  </div>
+
+  {% if historique %}
+  <div class="hist-table-wrap">
+    <table class="hist-table">
+      <thead>
+        <tr><th>Date</th><th>Conducteur</th><th>Trajet</th><th>Durée</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        {% for h in historique %}
+        <tr>
+          <td>{{ h.date }}</td>
+          <td>{{ h.conducteur }}</td>
+          <td class="trajet">L{{ h.ligne }} · {{ h.arret_depart }} → {{ h.arret_fin }}</td>
+          <td>{{ h.duree }}</td>
+          <td>{{ h.details }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty-state">Aucun service complété pour l'instant.</p>
+  {% endif %}
+</section>
+
+<footer>
+  <div>Marseille Transport Service — réseau privé</div>
+  <div class="mono">Actualisé en direct</div>
+</footer>
+
+</body>
+  </html>
+  
