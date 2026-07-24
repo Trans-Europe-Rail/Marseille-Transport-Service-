@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ nom }} — Marseille Transport Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1D33; --surface: #12293F; --surface-line: #1E3A54;
+    --gold: #FFC857; --sky: #4FA5D8; --paper: #F2F0E9; --muted: #7C93A8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.5; }
+  a { color: inherit; }
+  .display { font-family: 'Fraunces', serif; }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 6vw; position: sticky; top: 0;
+    background: rgba(11,29,51,0.85); backdrop-filter: blur(10px);
+    z-index: 50; border-bottom: 1px solid var(--surface-line);
+  }
+  .brand { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.15rem; }
+  .brand span { color: var(--gold); }
+  nav .links { display: flex; gap: 28px; font-size: 0.9rem; color: var(--muted); }
+  nav .links a:hover { color: var(--paper); }
+
+  .page-head { padding: 70px 6vw 40px; border-bottom: 1px solid var(--surface-line); }
+  .page-head .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .page-head h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; }
+
+  .stat-row { padding: 40px 6vw; display: flex; gap: 60px; flex-wrap: wrap; border-bottom: 1px solid var(--surface-line); }
+  .stat .val { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 600; color: var(--sky); }
+  .stat .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+
+  section { padding: 60px 6vw; }
+  section h2 { font-family: 'Fraunces', serif; font-size: 1.6rem; margin-bottom: 30px; }
+
+  .hist-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .hist-table th {
+    text-align: left; color: var(--muted); font-weight: 500;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 10px 14px; border-bottom: 1px solid var(--surface-line);
+  }
+  .hist-table td { padding: 14px; border-bottom: 1px solid var(--surface-line); }
+  .hist-table .trajet { color: var(--sky); font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; }
+  .hist-table-wrap { overflow-x: auto; }
+  .empty-state { color: var(--muted); font-style: italic; padding: 20px 0; }
+
+  footer {
+    padding: 50px 6vw; display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 0.85rem; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--surface-line);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><a href="/">Marseille <span>Transport</span> Service</a></div>
+  <div class="links">
+    <a href="/#classement">Classement</a>
+    <a href="/commandes">Commandes</a>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="eyebrow">Fiche conducteur</div>
+  <h1 class="display">{{ nom }}</h1>
+</div>
+
+{% if fiche %}
+<div class="stat-row">
+  <div class="stat">
+    <div class="val">{{ fiche.temps }}</div>
+    <div class="lbl">Temps total</div>
+  </div>
+  <div class="stat">
+    <div class="val">{{ fiche.services }}</div>
+    <div class="lbl">Services effectués</div>
+  </div>
+</div>
+{% endif %}
+
+<section>
+  <h2>Historique des services</h2>
+  {% if services %}
+  <div class="hist-table-wrap">
+    <table class="hist-table">
+      <thead>
+        <tr><th>Date</th><th>Trajet</th><th>Bus</th><th>Durée</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        {% for s in services %}
+        <tr>
+          <td>{{ s.date }}</td>
+          <td class="trajet">L{{ s.ligne }} · {{ s.arret_depart }} → {{ s.arret_fin }}</td>
+          <td>{{ s.bus }}</td>
+          <td>{{ s.duree }}</td>
+          <td>{{ s.details }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty-state">Aucun service enregistré pour ce conducteur.</p>
+  {% endif %}
+</section>
+
+<footer>
+  <div>Marseille Transport Service — réseau privé</div>
+  <div class="mono"><a href="/">← Retour au tableau de bord</a></div>
+</footer>
+
+</body>
+</html>
