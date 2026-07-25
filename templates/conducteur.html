@@ -3,29 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Classement — Marseille Transport Service</title>
+<title>{{ nom }} — Marseille Transport Service</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
   a { color: inherit; text-decoration: none; }
-  nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
-  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; }
+  nav { display: flex; justify-content: flex-start; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; margin-right: 80px; }
   .brand span { color: var(--gold); }
-  .links { display: flex; gap: 24px; font-weight: 500; }
+  .links { display: flex; gap: 24px; font-weight: 500; flex-wrap: wrap; }
   .links a:hover { color: var(--gold); }
-  .container { padding: 60px 6vw; }
-  h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
-  .rank-list { display: flex; flex-direction: column; gap: 12px; }
-  .rank-row { display: grid; grid-template-columns: 50px 1fr auto auto; align-items: center; gap: 20px; padding: 18px 20px; background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px; }
-  .rank-row.gold { border-color: var(--gold); }
-  .rank-num { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); }
-  .rank-name { font-weight: 600; font-size: 1.1rem; }
-  .rank-stat { font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; color: var(--sky); text-align: right; font-weight: 600; }
-  .rank-stat .lbl { color: var(--muted); display: block; font-size: 0.75rem; font-weight: 400; }
-  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); align-items: center; }
+  .container { padding: 60px 6vw; max-width: 1100px; margin: auto; }
+  h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 20px; color: var(--gold); }
   .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--surface-line); padding: 20px; border-radius: 8px; }
+  .stat-card h3 { font-size: 0.9rem; color: var(--muted); margin-bottom: 8px; font-weight: 400; }
+  .stat-card p { font-size: 1.8rem; font-family: 'Fraunces', serif; color: var(--gold); margin: 0; }
+  h2 { font-family: 'Fraunces', serif; font-size: 1.5rem; margin-bottom: 20px; }
+  .hist-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 8px; overflow: hidden; border: 2px solid var(--surface-line); }
+  .hist-table th { text-align: left; color: var(--gold); font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; text-transform: uppercase; padding: 16px 20px; background: #0d1b2a; border-bottom: 2px solid var(--surface-line); }
+  .hist-table td { padding: 16px 20px; border-bottom: 1px solid var(--surface-line); }
+  .hist-table .trajet { color: var(--sky); font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+  .hist-table-wrap { overflow-x: auto; }
+  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); align-items: center; flex-wrap: wrap; gap: 15px; }
   .discord-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
 </style>
 </head>
@@ -33,34 +36,58 @@
 <nav>
   <div class="brand"><a href="/">Marseille <span>Transport</span> Service</a></div>
   <div class="links">
-  <a href="/">Accueil</a>
-  <a href="/actifs">En service</a>
-  <a href="/classement">Classement</a>
-  <a href="/historique">Historique</a>
-  <a href="/factures">Factures</a>
-  <a href="/commandes">Commandes</a>
+    <a href="/">Accueil</a>
+    <a href="/actifs">En service</a>
+    <a href="/classement">Classement</a>
+    <a href="/historique">Historique</a>
+    <a href="/factures">Factures</a>
+    <a href="/commandes">Commandes</a>
+    <a href="/lignes">Lignes</a>
   </div>
 </nav>
 <div class="container">
   <a href="/" class="back">← Retour à l'accueil</a>
-  <h1>Classement général des conducteurs</h1>
-  {% if classement %}
-  <div class="rank-list">
-    {% for c in classement %}
-    <a class="rank-row {% if loop.index == 1 %}gold{% endif %}" href="/conducteur/{{ c.nom }}">
-      <div class="rank-num">{{ '%02d'|format(loop.index) }}</div>
-      <div class="rank-name">{{ c.nom }}</div>
-      <div class="rank-stat">{{ c.temps }}<span class="lbl">temps total</span></div>
-      <div class="rank-stat">{{ c.services }}<span class="lbl">services</span></div>
-    </a>
-    {% endfor %}
+  <h1>{{ nom }}</h1>
+
+  {% if fiche %}
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Temps total</h3>
+      <p>{{ fiche.temps }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Services effectués</h3>
+      <p>{{ fiche.services }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <h2>Historique des services</h2>
+  {% if services %}
+  <div class="hist-table-wrap">
+    <table class="hist-table">
+      <thead>
+        <tr><th>Date</th><th>Trajet</th><th>Bus</th><th>Durée</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        {% for s in services %}
+        <tr>
+          <td>{{ s.date }}</td>
+          <td class="trajet">L{{ s.ligne }} · {{ s.arret_depart }} → {{ s.arret_fin }}</td>
+          <td>{{ s.bus }}</td>
+          <td>{{ s.duree }}</td>
+          <td>{{ s.details }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
   {% else %}
-  <p style="color:var(--muted)">Aucun classement disponible pour le moment.</p>
+  <p style="color:var(--muted)">Aucun service enregistré pour ce conducteur.</p>
   {% endif %}
 </div>
 <footer>
-  <div>© 2026 Marseille Transport Service — Développé par Trans_Europe_Rail. Tous droits réservés.</div>
+  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail et Tous Droit Réservé</div>
   <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
 </footer>
 </body>
