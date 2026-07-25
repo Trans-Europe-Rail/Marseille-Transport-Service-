@@ -4,60 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Commandes — Marseille Transport Service</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #07111F;
-    --surface: #112238;
-    --surface-line: #223e60;
-    --gold: #FFD260;
-    --sky: #5bc0eb;
-    --paper: #FFFFFF;
-    --muted: #A3B8CC;
-  }
+  :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
   a { color: inherit; text-decoration: none; }
-  .display { font-family: 'Fraunces', serif; }
-  .mono { font-family: 'IBM Plex Mono', monospace; }
   
-  nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 24px 6vw; position: sticky; top: 0;
-    background: rgba(7,17,31,0.95); backdrop-filter: blur(10px);
-    z-index: 50; border-bottom: 2px solid var(--surface-line);
-  }
-  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; color: var(--paper); }
+  nav { display: flex; justify-content: flex-start; align-items: center; padding: 24px 6vw; position: sticky; top: 0; background: rgba(7,17,31,0.95); backdrop-filter: blur(10px); z-index: 50; border-bottom: 2px solid var(--surface-line); }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; color: var(--paper); margin-right: 80px; }
   .brand span { color: var(--gold); }
-  nav .links { display: flex; gap: 24px; font-size: 0.95rem; font-weight: 500; color: var(--paper); align-items: center; }
+  nav .links { display: flex; gap: 24px; font-size: 0.95rem; font-weight: 500; color: var(--paper); align-items: center; flex-wrap: wrap; }
   nav .links a:hover { color: var(--gold); }
-  @media (max-width: 768px) { nav .links { display: none; } }
 
-  .page-head { padding: 60px 6vw 40px; border-bottom: 2px solid var(--surface-line); }
+  .page-head { padding: 60px 6vw 40px; border-bottom: 2px solid var(--surface-line); max-width: 1100px; margin: auto; }
   .page-head .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 600; }
-  .page-head h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: var(--paper); }
+  .page-head h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: var(--paper); font-family: 'Fraunces', serif; }
 
-  .cmd-section { padding: 50px 6vw; border-bottom: 2px solid var(--surface-line); }
+  .container { max-width: 1100px; margin: auto; }
+  .cmd-section { padding: 40px 6vw; border-bottom: 2px solid var(--surface-line); }
   .cmd-section h2 { font-family: 'Fraunces', serif; font-size: 1.8rem; margin-bottom: 24px; color: var(--sky); font-weight: 700; }
   .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .cmd-card {
-    background: var(--surface); border: 2px solid var(--surface-line);
-    border-radius: 8px; padding: 20px;
-  }
+  .cmd-card { background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px; padding: 20px; }
   .cmd-card .name { font-family: 'IBM Plex Mono', monospace; color: var(--gold); font-size: 1rem; margin-bottom: 8px; font-weight: 600; }
   .cmd-card .desc { color: var(--paper); font-size: 0.92rem; opacity: 0.9; }
 
-  footer {
-    padding: 50px 6vw; display: flex; justify-content: space-between; align-items: center;
-    color: var(--muted); font-size: 0.9rem; flex-wrap: wrap; gap: 16px; background: var(--surface); border-top: 2px solid var(--surface-line);
-  }
-
-  .discord-btn {
-    background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px;
-    font-size: 0.9rem; font-weight: 600; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px; transition: filter 0.15s;
-  }
+  footer { padding: 50px 6vw; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.9rem; flex-wrap: wrap; gap: 16px; background: var(--surface); border-top: 2px solid var(--surface-line); }
+  .discord-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: filter 0.15s; }
   .discord-btn:hover { filter: brightness(1.15); }
   .back { display: inline-block; margin-bottom: 16px; color: var(--gold); font-weight: 600; }
 </style>
@@ -67,39 +40,43 @@
 <nav>
   <div class="brand"><a href="/">Marseille <span>Transport</span> Service</a></div>
   <div class="links">
-  <a href="/">Accueil</a>
-  <a href="/actifs">En service</a>
-  <a href="/classement">Classement</a>
-  <a href="/historique">Historique</a>
-  <a href="/factures">Factures</a>
-  <a href="/commandes">Commandes</a>
+    <a href="/">Accueil</a>
+    <a href="/actifs">En service</a>
+    <a href="/classement">Classement</a>
+    <a href="/historique">Historique</a>
+    <a href="/factures">Factures</a>
+    <a href="/commandes" style="color: var(--gold);">Commandes</a>
+    <a href="/lignes">Lignes</a>
   </div>
 </nav>
 
 <div class="page-head">
   <a href="/" class="back">← Retour à l'accueil</a>
   <div class="eyebrow">Documentation</div>
-  <h1 class="display">Toutes les commandes du bot</h1>
+  <h1>Toutes les commandes du bot</h1>
 </div>
 
-{% for section in categories %}
-<div class="cmd-section">
-  <h2>{{ section.cat }}</h2>
-  <div class="cmd-grid">
-    {% for name, desc in section.commands %}
-    <div class="cmd-card">
-      <div class="name mono">{{ name }}</div>
-      <div class="desc">{{ desc }}</div>
+<div class="container">
+  {% for section in categories %}
+  <div class="cmd-section">
+    <h2>{{ section.cat }}</h2>
+    <div class="cmd-grid">
+      {% for name, desc in section.commands %}
+      <div class="cmd-card">
+        <div class="name">{{ name }}</div>
+        <div class="desc">{{ desc }}</div>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 </div>
-{% endfor %}
 
 <footer>
-  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail. Tous droits réservés.</div>
+  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail et Tous Droit Réservé</div>
   <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
 </footer>
 
 </body>
 </html>
+
