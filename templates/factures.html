@@ -8,14 +8,14 @@
 <style>
   :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
+  body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
   a { color: inherit; text-decoration: none; }
   nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
   .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; }
   .brand span { color: var(--gold); }
   .links { display: flex; gap: 24px; font-weight: 500; align-items: center; flex-wrap: wrap; }
   .links a:hover { color: var(--gold); }
-  .container { padding: 60px 6vw; max-width: 1200px; margin: 0 auto; }
+  .container { padding: 60px 6vw; max-width: 1200px; margin: 0 auto; flex: 1; width: 100%; }
   h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
   .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
   
@@ -27,6 +27,10 @@
   .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; }
   .badge-bus { background: rgba(91, 192, 235, 0.2); color: var(--sky); }
   .badge-gazole { background: rgba(255, 210, 96, 0.2); color: var(--gold); }
+
+  footer { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-top: 2px solid var(--surface-line); font-size: 0.9rem; color: var(--muted); flex-wrap: wrap; gap: 15px; }
+  .discord-btn { background: #5865F2; color: white; padding: 8px 16px; border-radius: 6px; font-weight: 500; transition: background 0.2s; }
+  .discord-btn:hover { background: #4752C4; }
 </style>
 </head>
 <body>
@@ -83,5 +87,10 @@
     <p style="color: var(--muted); margin-top: 20px;">Aucune facture générée pour le moment. Utilise la commande <code>/facture</code> sur Discord pour en créer une !</p>
   {% endif %}
 </div>
+
+<footer>
+  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail. Tous droits réservés.</div>
+  <a href="https://discord.gg/ton-lien" target="_blank" class="discord-btn">Rejoindre le Discord</a>
+</footer>
 </body>
 </html>
