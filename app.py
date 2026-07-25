@@ -7,7 +7,6 @@ app = Flask(__name__)
 BOT_API_URL = os.environ.get("BOT_API_URL", "").rstrip("/")
 API_SECRET = os.environ.get("API_SECRET", "")
 
-# Récapitulatif statique des commandes du bot (affiché sur /commandes)
 COMMANDES = [
     {"cat": "Prise & suivi de service", "commands": [
         ("/debut", "Lance ta prise de service : ligne, arrêt de départ, bus, dépôt, météo en jeu"),
@@ -39,7 +38,6 @@ COMMANDES = [
     ]},
 ]
 
-
 def get_dashboard_data():
     if not BOT_API_URL:
         return {"actifs": [], "classement": [], "historique": [], "historique_complet": []}
@@ -55,7 +53,6 @@ def get_dashboard_data():
         print(f"Erreur récupération données bot : {e}")
         return {"actifs": [], "classement": [], "historique": [], "historique_complet": []}
 
-
 @app.route("/")
 def home():
     data = get_dashboard_data()
@@ -66,11 +63,24 @@ def home():
         historique=data.get("historique", []),
     )
 
+@app.route("/actifs")
+def page_actifs():
+    data = get_dashboard_data()
+    return render_template("actifs.html", actifs=data.get("actifs", []))
+
+@app.route("/classement")
+def page_classement():
+    data = get_dashboard_data()
+    return render_template("classement.html", classement=data.get("classement", []))
+
+@app.route("/historique")
+def page_historique():
+    data = get_dashboard_data()
+    return render_template("historique.html", historique=data.get("historique_complet", data.get("historique", [])))
 
 @app.route("/commandes")
 def commandes():
     return render_template("commandes.html", categories=COMMANDES)
-
 
 @app.route("/conducteur/<nom>")
 def conducteur(nom):
@@ -83,11 +93,9 @@ def conducteur(nom):
 
     return render_template("conducteur.html", nom=nom, fiche=fiche, services=services)
 
-
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
