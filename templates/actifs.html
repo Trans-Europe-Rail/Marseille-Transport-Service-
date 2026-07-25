@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>En service — Marseille Transport Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; }
+  .brand span { color: var(--gold); }
+  .links { display: flex; gap: 24px; font-weight: 500; }
+  .links a:hover { color: var(--gold); }
+  .container { padding: 60px 6vw; }
+  h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
+  .actifs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .actif-card { background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px; padding: 24px; display: block; transition: all 0.2s; }
+  .actif-card:hover { border-color: var(--sky); transform: translateY(-3px); }
+  .actif-card .ligne { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+  .actif-card .meta { color: var(--muted); font-size: 0.95rem; margin-top: 12px; font-family: 'IBM Plex Mono', monospace; }
+  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); }
+  .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand"><a href="/">Marseille <span>Transport</span> Service</a></div>
+  <div class="links">
+    <a href="/">Accueil</a>
+    <a href="/classement">Classement</a>
+    <a href="/historique">Historique</a>
+    <a href="/commandes">Commandes</a>
+  </div>
+</nav>
+<div class="container">
+  <a href="/" class="back">← Retour à l'accueil</a>
+  <h1>Conducteurs en service</h1>
+  {% if actifs %}
+  <div class="actifs-grid">
+    {% for a in actifs %}
+    <a class="actif-card" href="/conducteur/{{ a.conducteur }}">
+      <div class="ligne">Ligne {{ a.ligne }}</div>
+      <div class="meta">🧑‍✈️ {{ a.conducteur }}<br>🚍 {{ a.bus }} · {{ a.depot }}<br>📍 Départ : {{ a.heure_debut }}</div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="color:var(--muted); font-size: 1.1rem;">Aucun conducteur en service pour le moment. Le prochain départ n'attend qu'un `/debut` sur le serveur Discord !</p>
+  {% endif %}
+</div>
+<footer>
+  <div>© 2026 Marseille Transport Service</div>
+  <div><a href="/">Accueil</a></div>
+</footer>
+</body>
+</html>
