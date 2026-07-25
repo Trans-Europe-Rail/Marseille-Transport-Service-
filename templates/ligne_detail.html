@@ -4,34 +4,112 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ligne {{ numero }} — Marseille Transport Service</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; --line-color: #f97316; }
+  :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
   a { color: inherit; text-decoration: none; }
-  nav { display: flex; justify-content: flex-start; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
+  nav { display: flex; justify-content: flex-start; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); flex-wrap: wrap; row-gap: 10px; }
   .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; margin-right: 80px; }
   .brand span { color: var(--gold); }
   .links { display: flex; gap: 24px; font-weight: 500; flex-wrap: wrap; }
   .links a:hover { color: var(--gold); }
-  .container { padding: 60px 6vw; max-width: 1200px; margin: auto; }
-  .back-link { display: inline-block; color: var(--gold); font-weight: 600; margin-bottom: 20px; }
-  
-  .ligne-fiche { background: var(--surface); border: 2px solid var(--surface-line); border-radius: 12px; padding: 40px; overflow-x: auto; }
-  .badge-type { display: inline-block; font-family: 'IBM Plex Mono', monospace; background: var(--surface-line); color: var(--gold); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px; }
-  h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; color: var(--sky); margin-bottom: 30px; }
+  .container { padding: 50px 0 60px; max-width: 100%; margin: auto; }
+  .head-inner { padding: 0 6vw; max-width: 900px; margin: auto; }
+  .back { display: inline-block; margin-bottom: 24px; color: var(--gold); font-weight: 600; }
 
-  /* Style Schéma Ligne type Transilien / RER */
-  .schema-container { display: flex; align-items: center; position: relative; padding: 60px 20px; min-width: 600px; }
-  .schema-bar { position: absolute; height: 8px; background: var(--line-color); left: 40px; right: 40px; top: 50%; transform: translateY(-50%); z-index: 1; border-radius: 4px; }
-  
-  .schema-stations { display: flex; justify-content: space-between; width: 100%; position: relative; z-index: 2; }
-  .station-node { display: flex; flex-direction: column; align-items: center; text-align: center; width: 120px; }
-  .station-dot { width: 18px; height: 18px; background: var(--paper); border: 4px solid var(--line-color); border-radius: 50%; margin-bottom: 15px; transition: transform 0.2s; }
-  .station-node:hover .station-dot { transform: scale(1.3); background: var(--gold); }
-  .station-name { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; font-weight: 600; color: var(--paper); }
-  .station-role { font-size: 0.75rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; }
+  .line-header { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
+  .line-badge {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--line-color, var(--sky));
+    color: #07111F;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .line-type-badge {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 2.5px solid var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .line-title h1 { font-family: 'Fraunces', serif; font-size: 1.6rem; }
+  .line-title .type { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* --- Plan horizontal façon RATP --- */
+  .metro-scroll {
+    overflow-x: auto;
+    padding: 90px 6vw 40px;
+  }
+  .metro-track {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-end;
+    min-width: 100%;
+    padding-top: 10px;
+  }
+  .metro-track::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 6px;
+    background: var(--line-color, var(--sky));
+    border-radius: 3px;
+    z-index: 1;
+  }
+  .stop {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 64px;
+    flex-shrink: 0;
+  }
+  .stop .dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--navy);
+    border: 4px solid var(--line-color, var(--sky));
+    margin-top: 36px;
+  }
+  .stop .label {
+    position: absolute;
+    bottom: 58px;
+    left: 8px;
+    transform: rotate(-40deg);
+    transform-origin: left bottom;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    color: var(--paper);
+  }
+  .stop.terminus {
+    min-width: 20px;
+  }
+  .stop.terminus .dot {
+    width: 22px; height: 22px;
+    border-width: 5px;
+    border-color: var(--paper);
+    background: var(--line-color, var(--sky));
+    margin-top: 33px;
+  }
+  .stop.terminus .label {
+    position: static;
+    transform: none;
+    background: var(--line-color, var(--sky));
+    color: var(--navy);
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    white-space: nowrap;
+  }
+
+  .legend { padding: 20px 6vw 0; max-width: 900px; margin: auto; color: var(--muted); font-size: 0.85rem; font-style: italic; }
 
   footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); align-items: center; flex-wrap: wrap; gap: 15px; }
   .discord-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
@@ -51,42 +129,46 @@
   </div>
 </nav>
 
-<div class="container">
-  <a href="/lignes" class="back-link">← Retour à la liste des lignes</a>
-  
-  <div class="ligne-fiche">
-    <div class="badge-type">{{ ligne.type }}</div>
-    <h1>Ligne {{ numero }}</h1>
-    
-    <!-- Schéma graphique linéaire de la ligne -->
-    <div class="schema-container">
-      <div class="schema-bar"></div>
-      <div class="schema-stations">
-        <div class="station-node">
-          <div class="station-dot"></div>
-          <div class="station-name">{{ ligne.depart }}</div>
-          <div class="station-role">Origine</div>
-        </div>
-        
-        <!-- Point milieu fictif pour illustrer le tracé schématique -->
-        <div class="station-node">
-          <div class="station-dot" style="border-color: var(--sky);"></div>
-          <div class="station-name">Desserte Intermédiaire</div>
-          <div class="station-role">Tracé RTM</div>
-        </div>
-
-        <div class="station-node">
-          <div class="station-dot"></div>
-          <div class="station-name">{{ ligne.arrivee }}</div>
-          <div class="station-role">Terminus</div>
-        </div>
+<div class="container" style="--line-color: {{ '#5bc0eb' if ligne.type == 'Métro' else '#FFD260' if ligne.type == 'Tramway' else '#F2A24C' }};">
+  <div class="head-inner">
+    <a href="/lignes" class="back">← Retour aux lignes</a>
+    <div class="line-header">
+      <div class="line-badge">{{ numero }}</div>
+      <div class="line-title">
+        <h1>Ligne {{ numero }}</h1>
+        <div class="type">{{ ligne.type }}</div>
       </div>
     </div>
   </div>
+
+  <div class="metro-scroll">
+    <div class="metro-track">
+      <div class="stop terminus">
+        <div class="label">{{ ligne.depart }}</div>
+        <div class="dot"></div>
+      </div>
+      {% for arret in ligne.arrets %}
+      <div class="stop">
+        <div class="label">{{ arret }}</div>
+        <div class="dot"></div>
+      </div>
+      {% endfor %}
+      <div class="stop terminus">
+        <div class="label">{{ ligne.arrivee }}</div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+  {% if not ligne.arrets %}
+  <p class="legend">Les arrêts intermédiaires de cette ligne ne sont pas encore renseignés.</p>
+  {% else %}
+  <p class="legend">← Fais défiler horizontalement pour voir l'ensemble du trajet →</p>
+  {% endif %}
 </div>
 
 <footer>
-  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail • Tous Droit Réservé</div>
+  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail et Tous Droit Réservé</div>
   <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
 </footer>
 </body>
