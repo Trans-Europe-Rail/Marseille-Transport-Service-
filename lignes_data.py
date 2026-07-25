@@ -3549,5 +3549,4 @@ LIGNES = {
             "Leprince Ringuet"
         ],
         "arrivee": "Einstein Parking Relais"
-    },
-    
+    }
