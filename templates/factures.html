@@ -18,8 +18,18 @@
   .container { padding: 60px 6vw; max-width: 1200px; margin: 0 auto; flex: 1; width: 100%; }
   h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
   .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
-  
-  table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 8px; overflow: hidden; margin-top: 20px; }
+
+  /* Blocs Statistiques */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--surface-line); padding: 20px; border-radius: 8px; }
+  .stat-card h3 { font-size: 0.9rem; color: var(--muted); margin-bottom: 8px; font-weight: 400; }
+  .stat-card p { font-size: 1.8rem; font-family: 'Fraunces', serif; color: var(--gold); }
+
+  /* Barre de recherche */
+  .search-box { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--surface-line); border-radius: 8px; color: var(--paper); font-size: 1rem; margin-bottom: 25px; outline: none; }
+  .search-box:focus { border-color: var(--gold); }
+
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 8px; overflow: hidden; }
   th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--surface-line); font-size: 0.95rem; }
   th { background: rgba(0,0,0,0.2); color: var(--gold); font-family: 'Fraunces', serif; }
   tr:last-child td { border-bottom: none; }
@@ -51,7 +61,30 @@
   <h1>Historique des Factures</h1>
 
   {% if factures %}
-    <table>
+    <!-- Récapitulatif des dépenses -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total Dépensé (Bus)</h3>
+        <p>{{ stats_factures.total_bus }} €</p>
+      </div>
+      <div class="stat-card">
+        <h3>Total Dépensé (Gazole)</h3>
+        <p>{{ stats_factures.total_gazole }} €</p>
+      </div>
+      <div class="stat-card">
+        <h3>Dépenses Globales</h3>
+        <p>{{ stats_factures.total_global }} €</p>
+      </div>
+      <div class="stat-card">
+        <h3>Factures Totales</h3>
+        <p>{{ stats_factures.nombre_total }}</p>
+      </div>
+    </div>
+
+    <!-- Barre de recherche interactive -->
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Rechercher un conducteur ou un détail d'achat..." onkeyup="filterTable()">
+
+    <table id="facturesTable">
       <thead>
         <tr>
           <th>Date</th>
@@ -92,5 +125,28 @@
   <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail. Tous droits réservés.</div>
   <a href="https://discord.gg/ton-lien" target="_blank" class="discord-btn">Rejoindre le Discord</a>
 </footer>
+
+<script>
+  function filterTable() {
+    let input = document.getElementById("searchInput");
+    let filter = input.value.toLowerCase();
+    let table = document.getElementById("facturesTable");
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) {
+      let tdConducteur = tr[i].getElementsByTagName("td")[1];
+      let tdLibelle = tr[i].getElementsByTagName("td")[3];
+      if (tdConducteur || tdLibelle) {
+        let textConducteur = tdConducteur.textContent || tdConducteur.innerText;
+        let textLibelle = tdLibelle.textContent || tdLibelle.innerText;
+        if (textConducteur.toLowerCase().indexOf(filter) > -1 || textLibelle.toLowerCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
 </body>
 </html>
