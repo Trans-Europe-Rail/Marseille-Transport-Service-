@@ -27,7 +27,7 @@ COMMANDES = [
         ("/classement", "Classement des conducteurs par temps de service"),
         ("/profil", "Statistiques personnelles : temps cumulé, services, salaire virtuel"),
         ("/historique_recent", "Les 5 derniers services de la compagnie"),
-        ("/facture", "Génère et envoie une facture d'achat (bus ou gazole) au format Excel"),  # <-- Ajouté ici !
+        ("/facture", "Génère et envoie une facture d'achat (bus ou gazole) au format Excel"),
     ]},
     {"cat": "Administration", "commands": [
         ("/reseau_stats", "Statistiques globales de la compagnie (admin)"),
@@ -42,7 +42,6 @@ COMMANDES = [
 ]
 
 def get_dashboard_data():
-    # Données par défaut si l'API du bot ne répond pas
     data = {"actifs": [], "classement": [], "historique": [], "historique_complet": []}
     
     if BOT_API_URL:
@@ -57,7 +56,6 @@ def get_dashboard_data():
         except Exception as e:
             print(f"Erreur récupération données bot : {e}")
 
-    # Lecture des factures stockées localement
     factures = []
     if os.path.exists(FICHIER_FACTURES):
         try:
@@ -77,7 +75,6 @@ def get_dashboard_data():
         except Exception as e:
             print(f"Erreur lecture factures CSV : {e}")
 
-    # On fusionne le tout dans un seul dictionnaire
     data["factures"] = factures
     return data
 
