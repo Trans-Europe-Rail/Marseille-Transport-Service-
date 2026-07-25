@@ -22,8 +22,9 @@
   .hist-table td { padding: 16px 20px; border-bottom: 1px solid var(--surface-line); }
   .hist-table .trajet { color: var(--sky); font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
   .hist-table-wrap { overflow-x: auto; }
-  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); }
+  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); align-items: center; }
   .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
+  .discord-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
 </style>
 </head>
 <body>
@@ -63,8 +64,8 @@
   {% endif %}
 </div>
 <footer>
-  <div>© 2026 Marseille Transport Service</div>
-  <div><a href="/">Accueil</a></div>
+  <div>© 2026 Marseille Transport Service — Développé par Trans_Europe_Rail. Tous droits réservés.</div>
+  <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
 </footer>
 </body>
 </html>
