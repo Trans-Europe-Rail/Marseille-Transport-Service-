@@ -71,8 +71,8 @@
   }
   .stop .dot {
     width: 16px; height: 16px; border-radius: 50%;
-    background: var(--navy);
-    border: 4px solid var(--line-color, var(--sky));
+    background: #FFFFFF;
+    border: 4px solid #FFFFFF;
     margin-top: 36px;
   }
   .stop .label {
@@ -85,20 +85,17 @@
     font-size: 0.82rem;
     color: var(--paper);
   }
-  .stop.terminus {
-    min-width: 20px;
-  }
-  .stop.terminus .dot {
+  .stop.depart .dot {
     width: 22px; height: 22px;
     border-width: 5px;
-    border-color: var(--paper);
-    background: var(--line-color, var(--sky));
+    border-color: #FFFFFF;
+    background: #3DDC5C;
     margin-top: 33px;
   }
-  .stop.terminus .label {
+  .stop.depart .label {
     position: static;
     transform: none;
-    background: var(--line-color, var(--sky));
+    background: #3DDC5C;
     color: var(--navy);
     font-family: 'Fraunces', serif;
     font-weight: 700;
@@ -107,6 +104,30 @@
     border-radius: 4px;
     margin-bottom: 14px;
     white-space: nowrap;
+  }
+  .stop.terminus .dot {
+    width: 22px; height: 22px;
+    border-width: 5px;
+    border-color: #FFFFFF;
+    background: #E5484D;
+    margin-top: 33px;
+  }
+  .stop.terminus .label {
+    position: static;
+    transform: none;
+    background: #E5484D;
+    color: var(--navy);
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    white-space: nowrap;
+  }
+
+  .stop.depart, .stop.terminus {
+    min-width: 20px;
   }
 
   .legend { padding: 20px 6vw 0; max-width: 900px; margin: auto; color: var(--muted); font-size: 0.85rem; font-style: italic; }
@@ -129,7 +150,7 @@
   </div>
 </nav>
 
-<div class="container" style="--line-color: {{ '#5bc0eb' if ligne.type == 'Métro' else '#FFD260' if ligne.type == 'Tramway' else '#F2A24C' }};">
+<div class="container" style="--line-color: {{ '#5bc0eb' if ligne.type == 'Métro' else '#FFD260' if ligne.type == 'Tramway' else '#F472B6' }};">
   <div class="head-inner">
     <a href="/lignes" class="back">← Retour aux lignes</a>
     <div class="line-header">
@@ -143,7 +164,7 @@
 
   <div class="metro-scroll">
     <div class="metro-track">
-      <div class="stop terminus">
+      <div class="stop depart">
         <div class="label">{{ ligne.depart }}</div>
         <div class="dot"></div>
       </div>
@@ -173,3 +194,4 @@
 </footer>
 </body>
 </html>
+
