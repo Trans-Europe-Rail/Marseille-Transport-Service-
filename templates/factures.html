@@ -13,17 +13,20 @@
   nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
   .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; }
   .brand span { color: var(--gold); }
-  .links { display: flex; gap: 24px; font-weight: 500; align-items: center; }
+  .links { display: flex; gap: 24px; font-weight: 500; align-items: center; flex-wrap: wrap; }
   .links a:hover { color: var(--gold); }
-  .container { padding: 60px 6vw; }
+  .container { padding: 60px 6vw; max-width: 1200px; margin: 0 auto; }
   h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
-  .hist-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 8px; overflow: hidden; border: 2px solid var(--surface-line); }
-  .hist-table th { text-align: left; color: var(--gold); font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; text-transform: uppercase; padding: 16px 20px; background: #0d1b2a; border-bottom: 2px solid var(--surface-line); }
-  .hist-table td { padding: 16px 20px; border-bottom: 1px solid var(--surface-line); }
-  .hist-table-wrap { overflow-x: auto; }
-  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); align-items: center; flex-wrap: wrap; gap: 16px; }
   .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
-  .discord-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+  
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 8px; overflow: hidden; margin-top: 20px; }
+  th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--surface-line); font-size: 0.95rem; }
+  th { background: rgba(0,0,0,0.2); color: var(--gold); font-family: 'Fraunces', serif; }
+  tr:last-child td { border-bottom: none; }
+  .montant { color: #ff6b6b; font-weight: 600; }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; }
+  .badge-bus { background: rgba(91, 192, 235, 0.2); color: var(--sky); }
+  .badge-gazole { background: rgba(255, 210, 96, 0.2); color: var(--gold); }
 </style>
 </head>
 <body>
@@ -38,37 +41,47 @@
     <a href="/commandes">Commandes</a>
   </div>
 </nav>
+
 <div class="container">
   <a href="/" class="back">← Retour à l'accueil</a>
-  <h1>Historique des factures de la compagnie</h1>
+  <h1>Historique des Factures</h1>
+
   {% if factures %}
-  <div class="hist-table-wrap">
-    <table class="hist-table">
+    <table>
       <thead>
-        <tr><th>Date</th><th>Conducteur</th><th>Type</th><th>Détail / Article</th><th>Solde Début</th><th>Montant</th><th>Nouveau Solde</th></tr>
+        <tr>
+          <th>Date</th>
+          <th>Conducteur</th>
+          <th>Type</th>
+          <th>Détail / Article</th>
+          <th>Solde Départ</th>
+          <th>Montant</th>
+          <th>Nouveau Solde</th>
+        </tr>
       </thead>
       <tbody>
-        {% for f in factures %}
+        {% for fac in factures %}
         <tr>
-          <td>{{ f.date }}</td>
-          <td style="font-weight: 600; color: var(--gold);">{{ f.conducteur }}</td>
-          <td>{{ f.type }}</td>
-          <td>{{ f.libelle }}</td>
-          <td>{{ f.solde_depart }} €</td>
-          <td style="color: #ff6b6b;">-{{ f.montant }} €</td>
-          <td style="color: var(--sky); font-weight: 600;">{{ f.solde_fin }} €</td>
+          <td>{{ fac.date }}</td>
+          <td><strong>{{ fac.conducteur }}</strong></td>
+          <td>
+            {% if fac.type == 'Bus' %}
+              <span class="badge badge-bus">Bus</span>
+            {% else %}
+              <span class="badge badge-gazole">Gazole</span>
+            {% endif %}
+          </td>
+          <td>{{ fac.libelle }}</td>
+          <td>{{ fac.solde_depart }} €</td>
+          <td class="montant">-{{ fac.montant }} €</td>
+          <td><strong>{{ fac.solde_fin }} €</strong></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-  </div>
   {% else %}
-  <p style="color:var(--muted)">Aucune facture enregistrée pour l'instant.</p>
+    <p style="color: var(--muted); margin-top: 20px;">Aucune facture générée pour le moment. Utilise la commande <code>/facture</code> sur Discord pour en créer une !</p>
   {% endif %}
 </div>
-<footer>
-  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail. Tous droits réservés.</div>
-  <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
-</footer>
 </body>
 </html>
