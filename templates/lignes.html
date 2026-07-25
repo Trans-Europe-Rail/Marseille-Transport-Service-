@@ -11,8 +11,8 @@
   body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
   a { color: inherit; text-decoration: none; }
   
-  nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); position: sticky; top: 0; z-index: 50; }
-  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; }
+  nav { display: flex; justify-content: flex-start; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); position: sticky; top: 0; z-index: 50; }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; margin-right: 80px; }
   .brand span { color: var(--gold); }
   .links { display: flex; gap: 24px; font-weight: 500; align-items: center; flex-wrap: wrap; }
   .links a:hover { color: var(--gold); }
@@ -51,18 +51,18 @@
 <div class="container">
     <a href="/" class="back">← Retour à l'accueil</a>
     <h1>Plan & Lignes du Réseau</h1>
-    <p style="color: var(--muted); margin-bottom: 30px;">Consulte l'ensemble des lignes de métro, de bus et de tramway exploitées sur le réseau.</p>
+    <p style="color: var(--muted); margin-bottom: 30px;">Consulte l'ensemble des lignes de métro, de bus et de tramway exploitées sur le réseau[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span).</p>
     
     <h2>🚇 Lignes de Métro</h2>
     <div class="ligne-grid">
         <div class="ligne-card" style="border-left-color: #E74C3C;">
             <h3>Ligne M1</h3>
-            <p><strong>Parcours :</strong> La Rose ↔️ Sainte-Marguerite Dromel[span_0](start_span)[span_0](end_span)</p>
+            <p><strong>Parcours :</strong> La Rose ↔️ Sainte-Marguerite Dromel[span_2](start_span)[span_2](end_span)</p>
             <p>Axe structurant nord-est / sud.</p>
         </div>
         <div class="ligne-card" style="border-left-color: #2ECC71;">
             <h3>Ligne M2</h3>
-            <p><strong>Parcours :</strong> Bougainville ↔️ Sainte-Marguerite Dromel[span_1](start_span)[span_1](end_span)</p>
+            <p><strong>Parcours :</strong> Bougainville ↔️ Sainte-Marguerite Dromel[span_3](start_span)[span_3](end_span)</p>
             <p>Axe majeur desservant les gares et quartiers nord-sud.</p>
         </div>
     </div>
@@ -71,17 +71,17 @@
     <div class="ligne-grid">
         <div class="ligne-card">
             <h3>Ligne 21</h3>
-            <p><strong>Parcours :</strong> Castellane ↔️ Campus de Luminy[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)</p>
+            <p><strong>Parcours :</strong> Castellane ↔️ Campus de Luminy[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)</p>
             <p>Ligne à forte affluence vers les pôles universitaires.</p>
         </div>
         <div class="ligne-card">
             <h3>Ligne 83</h3>
-            <p><strong>Parcours :</strong> Vieux-Port ↔️ Plage des Catalans / Corniche[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)</p>
+            <p><strong>Parcours :</strong> Vieux-Port ↔️ Plage des Catalans / Corniche[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)</p>
             <p>Ligne touristique longeant le littoral.</p>
         </div>
         <div class="ligne-card">
             <h3>Ligne B2</h3>
-            <p><strong>Parcours :</strong> Bougainville ↔️ St-Jérôme IUT[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)</p>
+            <p><strong>Parcours :</strong> Bougainville ↔️ St-Jérôme IUT[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)</p>
             <p>Bus à Haut Niveau de Service (BHNS).</p>
         </div>
     </div>
@@ -97,10 +97,9 @@
 </div>
 
 <footer>
-  <div>© 2026 Marseille Transport Service — Tous droits réservés.</div>
+  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail et Tous Droit Réservé</div>
   <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
 </footer>
 
 </body>
-  </html>
-
+</html>
