@@ -27,6 +27,7 @@ COMMANDES = [
         ("/classement", "Classement des conducteurs par temps de service"),
         ("/profil", "Statistiques personnelles : temps cumulé, services, salaire virtuel"),
         ("/historique_recent", "Les 5 derniers services de la compagnie"),
+        ("/facture", "Génère et envoie une facture d'achat (bus ou gazole) au format Excel"),  # <-- Ajouté ici !
     ]},
     {"cat": "Administration", "commands": [
         ("/reseau_stats", "Statistiques globales de la compagnie (admin)"),
