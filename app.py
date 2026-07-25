@@ -57,25 +57,45 @@ def get_dashboard_data():
             print(f"Erreur récupération données bot : {e}")
 
     factures = []
+    total_bus = 0
+    total_gazole = 0
+    montant_total_depense = 0
+
     if os.path.exists(FICHIER_FACTURES):
         try:
             with open(FICHIER_FACTURES, "r", encoding="utf-8") as f:
                 lignes_fac = list(csv.reader(f))
             if len(lignes_fac) > 1:
                 for row in reversed(lignes_fac[1:]):
+                    montant = int(row[5]) if row[5].isdigit() else 0
+                    type_achat = row[2]
+
+                    if type_achat == "Bus":
+                        total_bus += montant
+                    elif type_achat == "Gazole":
+                        total_gazole += montant
+                    
+                    montant_total_depense += montant
+
                     factures.append({
                         "date": row[0], 
                         "conducteur": row[1], 
-                        "type": row[2],
+                        "type": type_achat,
                         "libelle": row[3], 
                         "solde_depart": row[4], 
-                        "montant": row[5], 
+                        "montant": montant, 
                         "solde_fin": row[6]
                     })
         except Exception as e:
             print(f"Erreur lecture factures CSV : {e}")
 
     data["factures"] = factures
+    data["stats_factures"] = {
+        "total_bus": total_bus,
+        "total_gazole": total_gazole,
+        "total_global": montant_total_depense,
+        "nombre_total": len(factures)
+    }
     return data
 
 @app.route("/")
@@ -106,7 +126,7 @@ def page_historique():
 @app.route("/factures")
 def page_factures():
     data = get_dashboard_data()
-    return render_template("factures.html", factures=data.get("factures", []))
+    return render_template("factures.html", factures=data.get("factures", []), stats_factures=data.get("stats_factures", {}))
 
 @app.route("/commandes")
 def commandes():
