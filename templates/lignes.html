@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lignes et Réseau — Marseille Transport Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); position: sticky; top: 0; z-index: 50; }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; }
+  .brand span { color: var(--gold); }
+  .links { display: flex; gap: 24px; font-weight: 500; align-items: center; flex-wrap: wrap; }
+  .links a:hover { color: var(--gold); }
+
+  .container { max-width: 1100px; margin: auto; padding: 60px 6vw; }
+  h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; color: var(--gold); margin-bottom: 10px; }
+  h2 { font-family: 'Fraunces', serif; color: var(--sky); border-bottom: 2px solid var(--surface-line); padding-bottom: 8px; margin-top: 40px; font-size: 1.8rem; }
+  
+  .ligne-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 20px; }
+  .ligne-card { background: var(--surface); padding: 20px; border-radius: 8px; border: 2px solid var(--surface-line); border-left: 6px solid var(--sky); transition: transform 0.2s; }
+  .ligne-card:hover { transform: translateY(-3px); border-color: var(--gold); }
+  .ligne-card h3 { font-family: 'Fraunces', serif; color: var(--gold); font-size: 1.2rem; margin-bottom: 8px; }
+  .ligne-card p { font-size: 0.95rem; color: var(--muted); margin-bottom: 6px; }
+  .ligne-card p strong { color: var(--paper); }
+
+  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); align-items: center; flex-wrap: wrap; gap: 15px; }
+  .discord-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+  .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><a href="/">Marseille <span>Transport</span> Service</a></div>
+  <div class="links">
+    <a href="/">Accueil</a>
+    <a href="/actifs">En service</a>
+    <a href="/classement">Classement</a>
+    <a href="/historique">Historique</a>
+    <a href="/factures">Factures</a>
+    <a href="/commandes">Commandes</a>
+    <a href="/lignes" style="color: var(--gold);">Lignes</a>
+  </div>
+</nav>
+
+<div class="container">
+    <a href="/" class="back">← Retour à l'accueil</a>
+    <h1>Plan & Lignes du Réseau</h1>
+    <p style="color: var(--muted); margin-bottom: 30px;">Consulte l'ensemble des lignes de métro, de bus et de tramway exploitées sur le réseau.</p>
+    
+    <h2>🚇 Lignes de Métro</h2>
+    <div class="ligne-grid">
+        <div class="ligne-card" style="border-left-color: #E74C3C;">
+            <h3>Ligne M1</h3>
+            <p><strong>Parcours :</strong> La Rose ↔️ Sainte-Marguerite Dromel[span_0](start_span)[span_0](end_span)</p>
+            <p>Axe structurant nord-est / sud.</p>
+        </div>
+        <div class="ligne-card" style="border-left-color: #2ECC71;">
+            <h3>Ligne M2</h3>
+            <p><strong>Parcours :</strong> Bougainville ↔️ Sainte-Marguerite Dromel[span_1](start_span)[span_1](end_span)</p>
+            <p>Axe majeur desservant les gares et quartiers nord-sud.</p>
+        </div>
+    </div>
+
+    <h2>🚌 Lignes de Bus Principales</h2>
+    <div class="ligne-grid">
+        <div class="ligne-card">
+            <h3>Ligne 21</h3>
+            <p><strong>Parcours :</strong> Castellane ↔️ Campus de Luminy[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)</p>
+            <p>Ligne à forte affluence vers les pôles universitaires.</p>
+        </div>
+        <div class="ligne-card">
+            <h3>Ligne 83</h3>
+            <p><strong>Parcours :</strong> Vieux-Port ↔️ Plage des Catalans / Corniche[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)</p>
+            <p>Ligne touristique longeant le littoral.</p>
+        </div>
+        <div class="ligne-card">
+            <h3>Ligne B2</h3>
+            <p><strong>Parcours :</strong> Bougainville ↔️ St-Jérôme IUT[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)</p>
+            <p>Bus à Haut Niveau de Service (BHNS).</p>
+        </div>
+    </div>
+
+    <h2>🚊 Lignes de Tramway</h2>
+    <div class="ligne-grid">
+        <div class="ligne-card" style="border-left-color: #F39C12;">
+            <h3>Lignes T3 / T2 / T1</h3>
+            <p><strong>Réseau Tramway</strong></p>
+            <p>Connexions fluides au cœur de la ville.</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+  <div>© 2026 Marseille Transport Service — Tous droits réservés.</div>
+  <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
+</footer>
+
+</body>
+  </html>
+
