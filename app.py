@@ -105,7 +105,10 @@ if __name__ == "__main__":
     
 FICHIER_FACTURES = "historique_factures.csv"
 
-# Dans ta fonction api_dashboard(), ajoute la lecture des factures :
+def get_dashboard_data():
+    # ... (Garde ici ton code existant pour charger tes autres données : actifs, classement, etc.) ...
+    
+    # Lecture des factures pour le site
     factures = []
     if os.path.exists(FICHIER_FACTURES):
         with open(FICHIER_FACTURES, "r", encoding="utf-8") as f:
@@ -113,21 +116,37 @@ FICHIER_FACTURES = "historique_factures.csv"
         if len(lignes_fac) > 1:
             for row in reversed(lignes_fac[1:]):
                 factures.append({
-                    "date": row[0], "conducteur": row[1], "type": row[2],
-                    "libelle": row[3], "solde_depart": row[4], "montant": row[5], "solde_fin": row[6]
+                    "date": row[0], 
+                    "conducteur": row[1], 
+                    "type": row[2],
+                    "libelle": row[3], 
+                    "solde_depart": row[4], 
+                    "montant": row[5], 
+                    "solde_fin": row[6]
                 })
 
-    return jsonify({
-        "actifs": actifs, 
-        "classement": classement, 
-        "historique": historique, 
+    return {
+        "actifs": actifs,  # Remplace par tes variables existantes
+        "classement": classement,
+        "historique": historique,
         "historique_complet": historique_complet,
         "factures": factures
-    })
+    }
 
-# Et ajoute la route web pour la page factures :
+@app.route("/")
+def index():
+    data = get_dashboard_data()
+    return render_template("index.html", **data)
+
 @app.route("/factures")
 def page_factures():
     data = get_dashboard_data()
     return render_template("factures.html", factures=data.get("factures", []))
-            
+
+@app.route("/api/data")
+def api_data():
+    return jsonify(get_dashboard_data())
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    
