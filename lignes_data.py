@@ -27,13 +27,26 @@ LIGNES = {
         "arrivee": "La Fourragère"
     },
     "M2": {
-        "type": "Métro",
-        "depart": "Bougainville",
-        "arrets": [],
-        "arrivee": "Sainte-Marguerite Dromel"
-    },
-
-    # --- TRAMWAY ---
+    "type": "Metro",
+    "depart": "Gèze",
+    "arrets": [
+      "National",
+      "Bougainville",
+      "Désirée Clary",
+      "Gare Saint-Charles",
+      "Joliette",
+      "Jules Guesde",
+      "Colbert (Hôtel de Région)",
+      "Noailles",
+      "Notre-Dame du Mont",
+      "Castellane",
+      "Perier",
+      "Rond-Point du Prado"
+    ],
+    "arrivee": "Sainte-Marguerite Dromel"
+  },
+    
+# --- TRAMWAY ---
     "T1": {
         "type": "Tramway",
         "depart": "Noailles",
