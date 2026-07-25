@@ -195,6 +195,25 @@ def ligne_detail(numero):
         abort(404)
     return render_template('ligne_detail.html', numero=numero, ligne=ligne)
 
+@app.route('/carte')
+def carte():
+    couleurs = {
+        "Métro": "#5bc0eb",
+        "Tramway": "#FF6FA5",
+        "Bus": "#F2A24C",
+        "Car départemental": "#8B7FD4",
+        "Car régional": "#6FCF97",
+        "Bus des Collines": "#D4A574",
+        "Bus de la Marcouline": "#7FB3D5",
+        "Bus de la Côte Bleue": "#5BC0BE",
+        "Navette maritime": "#4FA5D8",
+    }
+    blocs = []
+    for cat in CATEGORIES_LIGNES:
+        items = sorted([num for num, l in LIGNES.items() if l["type"] == cat])
+        blocs.append((cat, couleurs.get(cat, "#5bc0eb"), items))
+    return render_template('carte.html', blocs=blocs)
+    
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
