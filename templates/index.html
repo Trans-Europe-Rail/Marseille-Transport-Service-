@@ -3,189 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marseille Transport Service</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Accueil — Marseille Transport Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #07111F;
-    --surface: #112238;
-    --surface-line: #223e60;
-    --gold: #FFD260;
-    --sky: #5bc0eb;
-    --paper: #FFFFFF;
-    --muted: #A3B8CC;
-  }
+  :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
   a { color: inherit; text-decoration: none; }
-  .display { font-family: 'Fraunces', serif; }
-  .mono { font-family: 'IBM Plex Mono', monospace; }
-
-  nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 24px 6vw; position: sticky; top: 0;
-    background: rgba(7,17,31,0.95); backdrop-filter: blur(10px);
-    z-index: 50; border-bottom: 2px solid var(--surface-line);
-  }
-  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; color: var(--paper); }
+  nav { display: flex; justify-content: flex-start; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; margin-right: 80px; }
   .brand span { color: var(--gold); }
-  nav .links { display: flex; gap: 36px; font-size: 0.95rem; font-weight: 500; color: var(--paper); align-items: center; }
-  nav .links a:hover { color: var(--gold); }
-  @media (max-width: 768px) { nav .links { display: none; } }
-
-  .hero { padding: 80px 6vw 60px; }
-  .hero .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 600; }
-  .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 20px; color: var(--paper); }
-  .hero .lede { max-width: 50ch; color: var(--muted); font-size: 1.12rem; }
-
-  section { padding: 60px 6vw; border-top: 2px solid var(--surface-line); }
-  .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 30px; flex-wrap: wrap; gap: 10px; }
-  .section-head h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--paper); }
-  .section-head a.view-all { color: var(--gold); font-weight: 600; font-size: 0.95rem; }
-  .section-head a.view-all:hover { text-decoration: underline; }
-
-  .actifs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
-  .actif-card {
-    background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px; padding: 22px;
-    display: block; color: inherit; transition: all 0.2s;
-  }
-  .actif-card:hover { border-color: var(--sky); transform: translateY(-3px); }
-  .actif-card .ligne { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
-  .actif-card .meta { color: var(--muted); font-size: 0.92rem; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; }
-
-  .rank-list { display: flex; flex-direction: column; gap: 12px; }
-  .rank-row {
-    display: grid; grid-template-columns: 50px 1fr auto auto; align-items: center; gap: 20px;
-    padding: 16px 20px; background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px;
-    color: inherit; transition: all 0.2s;
-  }
-  .rank-row:hover { border-color: var(--gold); }
-  .rank-num { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--muted); }
-  .rank-row.gold .rank-num { color: var(--gold); }
-  .rank-name { font-weight: 600; font-size: 1.05rem; color: var(--paper); }
-  .rank-stat { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; color: var(--sky); text-align: right; font-weight: 600; }
-  .rank-stat .lbl { color: var(--muted); display: block; font-size: 0.75rem; font-weight: 400; }
-
-  .hist-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--surface); border-radius: 8px; overflow: hidden; border: 2px solid var(--surface-line); }
-  .hist-table th {
-    text-align: left; color: var(--gold); font-weight: 600;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
-    text-transform: uppercase; padding: 14px 18px; border-bottom: 2px solid var(--surface-line);
-    background: #0d1b2a;
-  }
-  .hist-table td { padding: 14px 18px; border-bottom: 1px solid var(--surface-line); color: var(--paper); }
-  .hist-table tr:last-child td { border-bottom: none; }
-  .hist-table .trajet { color: var(--sky); font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
-  .hist-table-wrap { overflow-x: auto; }
-
-  footer {
-    padding: 50px 6vw; border-top: 2px solid var(--surface-line);
-    display: flex; justify-content: space-between; align-items: center;
-    color: var(--muted); font-size: 0.9rem; flex-wrap: wrap; gap: 16px; background: var(--surface);
-  }
-  .discord-btn {
-    background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px;
-    font-size: 0.9rem; font-weight: 600; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px; transition: filter 0.15s;
-  }
-  .discord-btn:hover { filter: brightness(1.15); }
-  .empty-state { color: var(--muted); font-style: italic; padding: 20px 0; font-size: 1rem; }
+  .links { display: flex; gap: 24px; font-weight: 500; flex-wrap: wrap; }
+  .links a:hover { color: var(--gold); }
+  .container { padding: 60px 6vw; max-width: 1100px; margin: auto; }
+  h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 20px; color: var(--gold); }
+  p { color: var(--muted); margin-bottom: 30px; font-size: 1.1rem; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--surface-line); padding: 20px; border-radius: 8px; }
+  .stat-card h3 { font-size: 0.9rem; color: var(--muted); margin-bottom: 8px; font-weight: 400; }
+  .stat-card p { font-size: 1.8rem; font-family: 'Fraunces', serif; color: var(--gold); margin: 0; }
+  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); align-items: center; flex-wrap: wrap; gap: 15px; }
+  .discord-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
 </style>
 </head>
 <body>
-
 <nav>
-  <div class="brand">Marseille <span>Transport</span> Service</div>
+  <div class="brand"><a href="/">Marseille <span>Transport</span> Service</a></div>
   <div class="links">
-  <a href="/">Accueil</a>
-  <a href="/actifs">En service</a>
-  <a href="/classement">Classement</a>
-  <a href="/historique">Historique</a>
-  <a href="/factures">Factures</a>
-  <a href="/commandes">Commandes</a>
+    <a href="/" style="color: var(--gold);">Accueil</a>
+    <a href="/actifs">En service</a>
+    <a href="/classement">Classement</a>
+    <a href="/historique">Historique</a>
+    <a href="/factures">Factures</a>
+    <a href="/commandes">Commandes</a>
+    <a href="/lignes">Lignes</a>
   </div>
 </nav>
-
-<div class="hero">
-  <div class="eyebrow">Réseau privé · Simulation OMSI 2</div>
-  <h1 class="display">Le réseau bouge,<br>on le suit en direct.</h1>
-  <p class="lede">Tableau de bord officiel de la compagnie : conducteurs en service, classement général et historique de chaque ligne.</p>
+<div class="container">
+  <h1>Bienvenue sur le Portail de Marseille Transport Service</h1>
+  <p>Suivez en temps réel l'activité de notre réseau de transport, consultez les conducteurs en service, les statistiques financières et les lignes disponibles.</p>
+  
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Argent en Circulation</h3>
+      <p>{{ total_argent | default(0) }} €</p>
+    </div>
+    <div class="stat-card">
+      <h3>Agents Enregistrés</h3>
+      <p>{{ nb_agents | default(0) }}</p>
+    </div>
+  </div>
 </div>
-
-<section id="actifs">
-  <div class="section-head">
-    <h2 class="display">En service maintenant</h2>
-    <a href="/actifs" class="view-all">Voir tout →</a>
-  </div>
-  {% if actifs %}
-  <div class="actifs-grid">
-    {% for a in actifs %}
-    <a class="actif-card" href="/conducteur/{{ a.conducteur }}">
-      <div class="ligne">Ligne {{ a.ligne }}</div>
-      <div class="meta">🧑‍✈️ {{ a.conducteur }}<br>🚍 {{ a.bus }} · {{ a.depot }}<br>📍 Début : {{ a.heure_debut }}</div>
-    </a>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="empty-state">Aucun conducteur en service pour le moment.</p>
-  {% endif %}
-</section>
-
-<section id="classement">
-  <div class="section-head">
-    <h2 class="display">Top Conducteurs</h2>
-    <a href="/classement" class="view-all">Voir le classement complet →</a>
-  </div>
-  {% if classement %}
-  <div class="rank-list">
-    {% for c in classement[:5] %}
-    <a class="rank-row {% if loop.index == 1 %}gold{% endif %}" href="/conducteur/{{ c.nom }}">
-      <div class="rank-num">{{ '%02d'|format(loop.index) }}</div>
-      <div class="rank-name">{{ c.nom }}</div>
-      <div class="rank-stat">{{ c.temps }}<span class="lbl">temps total</span></div>
-      <div class="rank-stat">{{ c.services }}<span class="lbl">services</span></div>
-    </a>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="empty-state">Aucune statistique enregistrée.</p>
-  {% endif %}
-</section>
-
-<section id="historique">
-  <div class="section-head">
-    <h2 class="display">Derniers services</h2>
-    <a href="/historique" class="view-all">Voir tout l'historique →</a>
-  </div>
-  {% if historique %}
-  <div class="hist-table-wrap">
-    <table class="hist-table">
-      <thead>
-        <tr><th>Date</th><th>Conducteur</th><th>Trajet</th><th>Durée</th><th>Notes</th></tr>
-      </thead>
-      <tbody>
-        {% for h in historique[:5] %}
-        <tr>
-          <td>{{ h.date }}</td>
-          <td><a href="/conducteur/{{ h.conducteur }}" style="color:var(--gold); text-decoration:underline;">{{ h.conducteur }}</a></td>
-          <td class="trajet">L{{ h.ligne }} · {{ h.arret_depart }} → {{ h.arret_fin }}</td>
-          <td>{{ h.duree }}</td>
-          <td>{{ h.details }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-  <p class="empty-state">Aucun service complété.</p>
-  {% endif %}
-</section>
-
 <footer>
-  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail. Tous droits réservés.</div>
+  <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail et Tous Droit Réservé</div>
   <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
 </footer>
-
 </body>
 </html>
