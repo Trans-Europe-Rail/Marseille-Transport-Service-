@@ -1,14 +1,13 @@
 import os
-import requests
-from flask import Flask, render_template, abort
 import csv
-import os
-from flask import Flask, render_template, jsonify
+import requests
+from flask import Flask, render_template, abort, jsonify
 
 app = Flask(__name__)
 
 BOT_API_URL = os.environ.get("BOT_API_URL", "").rstrip("/")
 API_SECRET = os.environ.get("API_SECRET", "")
+FICHIER_FACTURES = "historique_factures.csv"
 
 COMMANDES = [
     {"cat": "Prise & suivi de service", "commands": [
@@ -42,19 +41,44 @@ COMMANDES = [
 ]
 
 def get_dashboard_data():
-    if not BOT_API_URL:
-        return {"actifs": [], "classement": [], "historique": [], "historique_complet": []}
-    try:
-        resp = requests.get(
-            f"{BOT_API_URL}/api/dashboard",
-            headers={"X-API-Key": API_SECRET},
-            timeout=5,
-        )
-        resp.raise_for_status()
-        return resp.json()
-    except Exception as e:
-        print(f"Erreur récupération données bot : {e}")
-        return {"actifs": [], "classement": [], "historique": [], "historique_complet": []}
+    # Données par défaut si l'API du bot ne répond pas
+    data = {"actifs": [], "classement": [], "historique": [], "historique_complet": []}
+    
+    if BOT_API_URL:
+        try:
+            resp = requests.get(
+                f"{BOT_API_URL}/api/dashboard",
+                headers={"X-API-Key": API_SECRET},
+                timeout=5,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+        except Exception as e:
+            print(f"Erreur récupération données bot : {e}")
+
+    # Lecture des factures stockées localement
+    factures = []
+    if os.path.exists(FICHIER_FACTURES):
+        try:
+            with open(FICHIER_FACTURES, "r", encoding="utf-8") as f:
+                lignes_fac = list(csv.reader(f))
+            if len(lignes_fac) > 1:
+                for row in reversed(lignes_fac[1:]):
+                    factures.append({
+                        "date": row[0], 
+                        "conducteur": row[1], 
+                        "type": row[2],
+                        "libelle": row[3], 
+                        "solde_depart": row[4], 
+                        "montant": row[5], 
+                        "solde_fin": row[6]
+                    })
+        except Exception as e:
+            print(f"Erreur lecture factures CSV : {e}")
+
+    # On fusionne le tout dans un seul dictionnaire
+    data["factures"] = factures
+    return data
 
 @app.route("/")
 def home():
@@ -81,6 +105,11 @@ def page_historique():
     data = get_dashboard_data()
     return render_template("historique.html", historique=data.get("historique_complet", data.get("historique", [])))
 
+@app.route("/factures")
+def page_factures():
+    data = get_dashboard_data()
+    return render_template("factures.html", factures=data.get("factures", []))
+
 @app.route("/commandes")
 def commandes():
     return render_template("commandes.html", categories=COMMANDES)
@@ -96,57 +125,14 @@ def conducteur(nom):
 
     return render_template("conducteur.html", nom=nom, fiche=fiche, services=services)
 
+@app.route("/api/data")
+def api_data():
+    return jsonify(get_dashboard_data())
+
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-    
-FICHIER_FACTURES = "historique_factures.csv"
-
-def get_dashboard_data():
-    # ... (Garde ici ton code existant pour charger tes autres données : actifs, classement, etc.) ...
-    
-    # Lecture des factures pour le site
-    factures = []
-    if os.path.exists(FICHIER_FACTURES):
-        with open(FICHIER_FACTURES, "r", encoding="utf-8") as f:
-            lignes_fac = list(csv.reader(f))
-        if len(lignes_fac) > 1:
-            for row in reversed(lignes_fac[1:]):
-                factures.append({
-                    "date": row[0], 
-                    "conducteur": row[1], 
-                    "type": row[2],
-                    "libelle": row[3], 
-                    "solde_depart": row[4], 
-                    "montant": row[5], 
-                    "solde_fin": row[6]
-                })
-
-    return {
-        "actifs": actifs,  # Remplace par tes variables existantes
-        "classement": classement,
-        "historique": historique,
-        "historique_complet": historique_complet,
-        "factures": factures
-    }
-
-@app.route("/")
-def index():
-    data = get_dashboard_data()
-    return render_template("index.html", **data)
-
-@app.route("/factures")
-def page_factures():
-    data = get_dashboard_data()
-    return render_template("factures.html", factures=data.get("factures", []))
-
-@app.route("/api/data")
-def api_data():
-    return jsonify(get_dashboard_data())
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
     
