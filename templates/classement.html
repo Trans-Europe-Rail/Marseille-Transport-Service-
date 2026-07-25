@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classement — Marseille Transport Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #07111F; --surface: #112238; --surface-line: #223e60; --gold: #FFD260; --sky: #5bc0eb; --paper: #FFFFFF; --muted: #A3B8CC; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 6vw; background: rgba(7,17,31,0.95); border-bottom: 2px solid var(--surface-line); }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; }
+  .brand span { color: var(--gold); }
+  .links { display: flex; gap: 24px; font-weight: 500; }
+  .links a:hover { color: var(--gold); }
+  .container { padding: 60px 6vw; }
+  h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
+  .rank-list { display: flex; flex-direction: column; gap: 12px; }
+  .rank-row { display: grid; grid-template-columns: 50px 1fr auto auto; align-items: center; gap: 20px; padding: 18px 20px; background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px; }
+  .rank-row.gold { border-color: var(--gold); }
+  .rank-num { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+  .rank-name { font-weight: 600; font-size: 1.1rem; }
+  .rank-stat { font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; color: var(--sky); text-align: right; font-weight: 600; }
+  .rank-stat .lbl { color: var(--muted); display: block; font-size: 0.75rem; font-weight: 400; }
+  footer { padding: 40px 6vw; border-top: 2px solid var(--surface-line); display: flex; justify-content: space-between; color: var(--muted); margin-top: 60px; background: var(--surface); }
+  .back { display: inline-block; margin-bottom: 20px; color: var(--gold); font-weight: 600; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand"><a href="/">Marseille <span>Transport</span> Service</a></div>
+  <div class="links">
+    <a href="/">Accueil</a>
+    <a href="/actifs">En service</a>
+    <a href="/historique">Historique</a>
+    <a href="/commandes">Commandes</a>
+  </div>
+</nav>
+<div class="container">
+  <a href="/" class="back">← Retour à l'accueil</a>
+  <h1>Classement général des conducteurs</h1>
+  {% if classement %}
+  <div class="rank-list">
+    {% for c in classement %}
+    <a class="rank-row {% if loop.index == 1 %}gold{% endif %}" href="/conducteur/{{ c.nom }}">
+      <div class="rank-num">{{ '%02d'|format(loop.index) }}</div>
+      <div class="rank-name">{{ c.nom }}</div>
+      <div class="rank-stat">{{ c.temps }}<span class="lbl">temps total</span></div>
+      <div class="rank-stat">{{ c.services }}<span class="lbl">services</span></div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="color:var(--muted)">Aucun classement disponible pour le moment.</p>
+  {% endif %}
+</div>
+<footer>
+  <div>© 2026 Marseille Transport Service</div>
+  <div><a href="/">Accueil</a></div>
+</footer>
+</body>
+</html>
