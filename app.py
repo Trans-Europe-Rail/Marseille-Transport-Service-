@@ -12,33 +12,62 @@ FICHIER_FACTURES = "historique_factures.csv"
 
 COMMANDES = [
     {"cat": "Prise & suivi de service", "commands": [
-        ("/debut", "Lance ta prise de service : ligne, arrêt de départ, bus, dépôt, météo en jeu"),
+        ("/debut", "Lance ta prise de service OMSI 2"),
         ("/pause", "Met ton service en pause"),
-        ("/reprise", "Reprend ton service après une pause (le temps de pause est déduit automatiquement)"),
-        ("/changement_bus", "Déclare un bus de secours en cas de panne ou de crash en cours de route"),
-        ("/fin", "Termine ton service : compte-rendu complet, CSV joint et envoyé par mail"),
+        ("/reprise", "Reprend ton service après une pause"),
+        ("/changement_bus", "Change de bus en cours de route en cas de pépin ou de crash"),
+        ("/fin", "Termine ton service et génère le compte-rendu OMSI 2"),
+        ("/essence", "Enregistre un passage au dépôt pour faire le plein ou recharger ton bus"),
     ]},
     {"cat": "Signalement", "commands": [
-        ("/incident", "Signale un incident avec type et gravité, transmis dans #incidents"),
+        ("/incident", "Signale un incident ou une panne sur ta ligne"),
         ("/signalement_arret", "Signale un problème sur un arrêt ou une portion de route"),
         ("/garage_secours", "Demande l'envoi d'une assistance technique d'urgence"),
+        ("/greve", "Déclare un mouvement de grève sur le réseau"),
     ]},
-    {"cat": "Stats & suivi", "commands": [
-        ("/actifs", "Affiche qui est en service en ce moment"),
-        ("/classement", "Classement des conducteurs par temps de service"),
-        ("/profil", "Statistiques personnelles : temps cumulé, services, salaire virtuel"),
-        ("/historique_recent", "Les 5 derniers services de la compagnie"),
-        ("/facture", "Génère et envoie une facture d'achat (bus ou gazole) au format Excel"),
+    {"cat": "Stats & suivi personnel", "commands": [
+        ("/profil", "Affiche tes statistiques personnelles de conducteur"),
+        ("/actifs", "Affiche la liste des conducteurs actuellement en service"),
+        ("/classement", "Affiche le classement des meilleurs conducteurs"),
+        ("/historique_recent", "Affiche les 5 derniers services enregistrés de la compagnie"),
+        ("/solde", "Vérifie ton salaire virtuel et ton solde actuel"),
+        ("/bonus_carburant", "Vérifie ton bonus d'éco-conduite du mois"),
+    ]},
+    {"cat": "Finances", "commands": [
+        ("/facture", "Génère et envoie une facture d'achat (bus ou gazole) dans le salon #factures"),
+        ("/bilan_financier", "[PROPRIÉTAIRE] Affiche le rapport financier global de l'entreprise"),
+        ("/taxe", "[PROPRIÉTAIRE] Applique une taxe de régulation financière exceptionnelle"),
+        ("/prime", "[PROPRIÉTAIRE] Ajoute ou retire une prime financière à un conducteur"),
+        ("/prime_speciale", "[PROPRIÉTAIRE] Attribue une prime exceptionnelle à l'ensemble des chauffeurs"),
+    ]},
+    {"cat": "Flotte & exploitation", "commands": [
+        ("/inventaire_bus", "Affiche la flotte des véhicules officiels de la compagnie"),
+        ("/acheter_bus", "[PROPRIÉTAIRE] Ajoute un nouveau bus au catalogue de la compagnie"),
+        ("/reparer_bus", "Envoie un bus en maintenance d'urgence au garage suite à des dégâts"),
+        ("/planning", "Affiche le planning des lignes et des services recommandés de la semaine"),
+        ("/contrat", "Consulte les contrats de transport spéciaux en cours pour la compagnie"),
+        ("/mission", "Accepte une mission spéciale aléatoire pour ta prochaine tournée"),
+        ("/carte_du_jeu", "Accès aux différentes lignes du réseau"),
+    ]},
+    {"cat": "Ambiance & confort de jeu", "commands": [
+        ("/meteo_live", "Vérifie les conseils météo pour configurer correctement ton jeu OMSI 2"),
+        ("/meteo_jeu", "Configure les conditions de saison et de température pour ta ligne"),
+        ("/radio", "Choisis ou affiche la station de radio jouée dans ton bus en jeu"),
+    ]},
+    {"cat": "Ressources humaines", "commands": [
+        ("/recruter", "[PROPRIÉTAIRE] Affiche les instructions pour intégrer de nouveaux chauffeurs"),
+        ("/licencier", "[PROPRIÉTAIRE] Retire un conducteur de l'effectif de la compagnie"),
+        ("/conge", "Déclare une demande de congé"),
+        ("/absence", "Signale une absence"),
     ]},
     {"cat": "Administration", "commands": [
-        ("/reseau_stats", "Statistiques globales de la compagnie (admin)"),
-        ("/prime", "Ajoute ou retire une prime à un conducteur (admin)"),
-        ("/admin_reset_service", "Force l'arrêt d'un service bloqué (admin)"),
+        ("/reseau_stats", "[PROPRIÉTAIRE/ADMIN] Affiche les statistiques globales de toute la compagnie"),
+        ("/admin_reset_service", "[PROPRIÉTAIRE] Force l'arrêt d'un service bloqué pour un utilisateur"),
     ]},
     {"cat": "Autres", "commands": [
-        ("/soutien", "Affiche la valeur du bot et le lien pour soutenir le développeur"),
-        ("/consignes", "Rappel du règlement et des bonnes pratiques"),
-        ("/meteo_jeu", "Configure les conditions de saison et de température"),
+        ("/soutien", "Affiche la valeur réelle du bot et le lien pour participer"),
+        ("/consignes", "Affiche le rappel du règlement et des bonnes pratiques de la compagnie"),
+        ("/aide_conducteur", "Affiche le guide rapide de prise en main du bot pour les chauffeurs"),
     ]},
 ]
 
@@ -172,4 +201,5 @@ def not_found(e):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-        
+
+
