@@ -8,219 +8,89 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0B1D33;
-    --navy-deep: #071526;
-    --surface: #12293F;
-    --surface-line: #1E3A54;
-    --gold: #FFC857;
-    --sky: #4FA5D8;
-    --paper: #F2F0E9;
-    --muted: #7C93A8;
+    --navy: #07111F;
+    --surface: #112238;
+    --surface-line: #223e60;
+    --gold: #FFD260;
+    --sky: #5bc0eb;
+    --paper: #FFFFFF;
+    --muted: #A3B8CC;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--navy);
-    color: var(--paper);
-    font-family: 'IBM Plex Sans', sans-serif;
-    line-height: 1.5;
-    overflow-x: hidden;
-  }
-
-  a { color: inherit; }
-
-  .display {
-    font-family: 'Fraunces', serif;
-    font-optical-sizing: auto;
-  }
-
+  body { background: var(--navy); color: var(--paper); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  .display { font-family: 'Fraunces', serif; }
   .mono { font-family: 'IBM Plex Mono', monospace; }
 
-  /* ---------- NAV ---------- */
   nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 28px 6vw;
-    position: sticky;
-    top: 0;
-    background: rgba(11,29,51,0.85);
-    backdrop-filter: blur(10px);
-    z-index: 50;
-    border-bottom: 1px solid var(--surface-line);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 6vw; position: sticky; top: 0;
+    background: rgba(7,17,31,0.95); backdrop-filter: blur(10px);
+    z-index: 50; border-bottom: 2px solid var(--surface-line);
   }
-  .brand {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 1.15rem;
-    letter-spacing: 0.02em;
-  }
+  .brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; color: var(--paper); }
   .brand span { color: var(--gold); }
-  nav .links { display: flex; gap: 28px; font-size: 0.9rem; color: var(--muted); }
-  nav .links a:hover { color: var(--paper); }
-  @media (max-width: 640px) { nav .links { display: none; } }
+  nav .links { display: flex; gap: 24px; font-size: 0.95rem; font-weight: 500; color: var(--paper); align-items: center; }
+  nav .links a:hover { color: var(--gold); }
+  @media (max-width: 768px) { nav .links { display: none; } }
 
-  /* ---------- HERO ---------- */
-  .hero {
-    position: relative;
-    padding: 100px 6vw 80px;
-    overflow: hidden;
-  }
-  .hero .eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 18px;
-  }
-  .hero h1 {
-    font-size: clamp(2.4rem, 6vw, 4.6rem);
-    font-weight: 600;
-    line-height: 1.02;
-    max-width: 14ch;
-    letter-spacing: -0.01em;
-  }
-  .hero .lede {
-    margin-top: 26px;
-    max-width: 46ch;
-    color: var(--muted);
-    font-size: 1.08rem;
-  }
+  .hero { padding: 80px 6vw 60px; }
+  .hero .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 600; }
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 20px; color: var(--paper); }
+  .hero .lede { max-width: 50ch; color: var(--muted); font-size: 1.12rem; }
 
-  /* signature line-map motif */
-  .linemap {
-    margin-top: 64px;
-    display: flex;
-    align-items: center;
-    gap: 0;
-    overflow-x: auto;
-    padding-bottom: 8px;
-  }
-  .stop {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 120px;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .stop .dot {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: var(--sky);
-    border: 3px solid var(--navy);
-    box-shadow: 0 0 0 2px var(--surface-line);
-    z-index: 2;
-  }
-  .stop.terminus .dot { background: var(--gold); width: 18px; height: 18px; }
-  .stop .label {
-    margin-top: 10px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-align: center;
-    white-space: nowrap;
-  }
-  .track {
-    position: absolute;
-    top: 6px;
-    left: -50%;
-    width: 100%;
-    height: 3px;
-    background: var(--surface-line);
-    z-index: 1;
-  }
-  .stop:first-child .track { display: none; }
+  section { padding: 60px 6vw; border-top: 2px solid var(--surface-line); }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 30px; flex-wrap: wrap; gap: 10px; }
+  .section-head h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--paper); }
+  .section-head a.view-all { color: var(--gold); font-weight: 600; font-size: 0.95rem; }
+  .section-head a.view-all:hover { text-decoration: underline; }
 
-  /* ---------- SECTION SHELL ---------- */
-  section { padding: 70px 6vw; border-top: 1px solid var(--surface-line); }
-  .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 40px; flex-wrap: wrap; gap: 10px; }
-  .section-head h2 { font-family: 'Fraunces', serif; font-size: 1.9rem; font-weight: 600; }
-  .section-head .count { font-family: 'IBM Plex Mono', monospace; color: var(--muted); font-size: 0.85rem; }
-
-  /* ---------- ACTIFS ---------- */
-  .actifs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .actifs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
   .actif-card {
-    background: var(--surface);
-    border: 1px solid var(--surface-line);
-    border-radius: 4px;
-    padding: 20px;
-    position: relative;
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.15s, transform 0.15s;
+    background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px; padding: 22px;
+    display: block; color: inherit; transition: all 0.2s;
   }
-  .actif-card:hover { border-color: var(--sky); transform: translateY(-2px); }
-  .actif-card .pulse {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #4ADE80; display: inline-block; margin-right: 8px;
-    box-shadow: 0 0 0 0 rgba(74,222,128,0.6);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
-    70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
-    100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
-  }
-  .actif-card .ligne { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; }
-  .actif-card .meta { color: var(--muted); font-size: 0.85rem; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; }
-  .empty-state { color: var(--muted); font-style: italic; padding: 30px 0; }
+  .actif-card:hover { border-color: var(--sky); transform: translateY(-3px); }
+  .actif-card .ligne { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+  .actif-card .meta { color: var(--muted); font-size: 0.92rem; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; }
 
-  /* ---------- CLASSEMENT ---------- */
-  .rank-list { display: flex; flex-direction: column; }
+  .rank-list { display: flex; flex-direction: column; gap: 12px; }
   .rank-row {
-    display: grid;
-    grid-template-columns: 48px 1fr auto auto;
-    align-items: center;
-    gap: 18px;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--surface-line);
-    text-decoration: none;
-    color: inherit;
-    transition: padding-left 0.15s;
+    display: grid; grid-template-columns: 50px 1fr auto auto; align-items: center; gap: 20px;
+    padding: 16px 20px; background: var(--surface); border: 2px solid var(--surface-line); border-radius: 8px;
+    color: inherit; transition: all 0.2s;
   }
-  .rank-row:hover { padding-left: 8px; }
-  .rank-row:first-child { padding-top: 0; }
-  .rank-num { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--muted); }
+  .rank-row:hover { border-color: var(--gold); }
+  .rank-num { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--muted); }
   .rank-row.gold .rank-num { color: var(--gold); }
-  .rank-name { font-weight: 500; }
-  .rank-stat { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--sky); text-align: right; }
-  .rank-stat .lbl { color: var(--muted); display: block; font-size: 0.7rem; }
+  .rank-name { font-weight: 600; font-size: 1.05rem; color: var(--paper); }
+  .rank-stat { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; color: var(--sky); text-align: right; font-weight: 600; }
+  .rank-stat .lbl { color: var(--muted); display: block; font-size: 0.75rem; font-weight: 400; }
 
-  /* ---------- HISTORIQUE ---------- */
-  .hist-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .hist-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--surface); border-radius: 8px; overflow: hidden; border: 2px solid var(--surface-line); }
   .hist-table th {
-    text-align: left; color: var(--muted); font-weight: 500;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    padding: 10px 14px; border-bottom: 1px solid var(--surface-line);
+    text-align: left; color: var(--gold); font-weight: 600;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
+    text-transform: uppercase; padding: 14px 18px; border-bottom: 2px solid var(--surface-line);
+    background: #0d1b2a;
   }
-  .hist-table td { padding: 14px; border-bottom: 1px solid var(--surface-line); }
+  .hist-table td { padding: 14px 18px; border-bottom: 1px solid var(--surface-line); color: var(--paper); }
   .hist-table tr:last-child td { border-bottom: none; }
-  .hist-table .trajet { color: var(--sky); font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; }
+  .hist-table .trajet { color: var(--sky); font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
   .hist-table-wrap { overflow-x: auto; }
 
-  /* ---------- FOOTER ---------- */
   footer {
-    padding: 50px 6vw;
-    border-top: 1px solid var(--surface-line);
+    padding: 50px 6vw; border-top: 2px solid var(--surface-line);
     display: flex; justify-content: space-between; align-items: center;
-    color: var(--muted); font-size: 0.85rem; flex-wrap: wrap; gap: 12px;
+    color: var(--muted); font-size: 0.9rem; flex-wrap: wrap; gap: 16px; background: var(--surface);
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .actif-card .pulse { animation: none; }
-  }
-
   .discord-btn {
-    background: #5865F2; color: #fff; padding: 8px 16px; border-radius: 20px;
-    font-size: 0.85rem; font-weight: 500; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 6px; transition: filter 0.15s;
+    background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 24px;
+    font-size: 0.9rem; font-weight: 600; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px; transition: filter 0.15s;
   }
-  .discord-btn:hover { filter: brightness(1.1); }
+  .discord-btn:hover { filter: brightness(1.15); }
+  .empty-state { color: var(--muted); font-style: italic; padding: 20px 0; font-size: 1rem; }
 </style>
 </head>
 <body>
@@ -228,9 +98,9 @@
 <nav>
   <div class="brand">Marseille <span>Transport</span> Service</div>
   <div class="links">
-    <a href="#actifs">En service</a>
-    <a href="#classement">Classement</a>
-    <a href="#historique">Historique</a>
+    <a href="/actifs">En service</a>
+    <a href="/classement">Classement</a>
+    <a href="/historique">Historique</a>
     <a href="/commandes">Commandes</a>
     <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
   </div>
@@ -239,49 +109,36 @@
 <div class="hero">
   <div class="eyebrow">Réseau privé · Simulation OMSI 2</div>
   <h1 class="display">Le réseau bouge,<br>on le suit en direct.</h1>
-  <p class="lede">Tableau de bord public de la compagnie : conducteurs en service, classement, et historique complet de chaque ligne, mis à jour en temps réel.</p>
-
-  <div class="linemap">
-    {% set stops = ["Vieux-Port", "Castellane", "Prado", "La Timone", "Saint-Charles", "Joliette"] %}
-    {% for s in stops %}
-    <div class="stop {% if loop.last %}terminus{% endif %}">
-      <div class="track"></div>
-      <div class="dot"></div>
-      <div class="label">{{ s }}</div>
-    </div>
-    {% endfor %}
-  </div>
+  <p class="lede">Tableau de bord officiel de la compagnie : conducteurs en service, classement général et historique de chaque ligne.</p>
 </div>
 
 <section id="actifs">
   <div class="section-head">
     <h2 class="display">En service maintenant</h2>
-    <span class="count mono">{{ actifs|length }} conducteur{{ 's' if actifs|length != 1 else '' }} actif{{ 's' if actifs|length != 1 else '' }}</span>
+    <a href="/actifs" class="view-all">Voir tout →</a>
   </div>
-
   {% if actifs %}
   <div class="actifs-grid">
     {% for a in actifs %}
     <a class="actif-card" href="/conducteur/{{ a.conducteur }}">
-      <div class="ligne"><span class="pulse"></span>Ligne {{ a.ligne }}</div>
-      <div class="meta">{{ a.conducteur }}<br>{{ a.bus }} · départ {{ a.depot }}<br>depuis {{ a.arret_depart }} à {{ a.heure_debut }}</div>
+      <div class="ligne">Ligne {{ a.ligne }}</div>
+      <div class="meta">🧑‍✈️ {{ a.conducteur }}<br>🚍 {{ a.bus }} · {{ a.depot }}<br>📍 Début : {{ a.heure_debut }}</div>
     </a>
     {% endfor %}
   </div>
   {% else %}
-  <p class="empty-state">Aucun conducteur en service pour le moment. Le prochain départ n'attend qu'un `/debut`.</p>
+  <p class="empty-state">Aucun conducteur en service pour le moment.</p>
   {% endif %}
 </section>
 
 <section id="classement">
   <div class="section-head">
-    <h2 class="display">Classement des conducteurs</h2>
-    <span class="count mono">Top {{ classement|length }}</span>
+    <h2 class="display">Top Conducteurs</h2>
+    <a href="/classement" class="view-all">Voir le classement complet →</a>
   </div>
-
   {% if classement %}
   <div class="rank-list">
-    {% for c in classement %}
+    {% for c in classement[:5] %}
     <a class="rank-row {% if loop.index == 1 %}gold{% endif %}" href="/conducteur/{{ c.nom }}">
       <div class="rank-num">{{ '%02d'|format(loop.index) }}</div>
       <div class="rank-name">{{ c.nom }}</div>
@@ -291,16 +148,15 @@
     {% endfor %}
   </div>
   {% else %}
-  <p class="empty-state">Aucune statistique enregistrée pour le moment.</p>
+  <p class="empty-state">Aucune statistique enregistrée.</p>
   {% endif %}
 </section>
 
 <section id="historique">
   <div class="section-head">
     <h2 class="display">Derniers services</h2>
-    <span class="count mono">5 plus récents</span>
+    <a href="/historique" class="view-all">Voir tout l'historique →</a>
   </div>
-
   {% if historique %}
   <div class="hist-table-wrap">
     <table class="hist-table">
@@ -308,10 +164,10 @@
         <tr><th>Date</th><th>Conducteur</th><th>Trajet</th><th>Durée</th><th>Notes</th></tr>
       </thead>
       <tbody>
-        {% for h in historique %}
+        {% for h in historique[:5] %}
         <tr>
           <td>{{ h.date }}</td>
-          <td><a href="/conducteur/{{ h.conducteur }}">{{ h.conducteur }}</a></td>
+          <td><a href="/conducteur/{{ h.conducteur }}" style="color:var(--gold); text-decoration:underline;">{{ h.conducteur }}</a></td>
           <td class="trajet">L{{ h.ligne }} · {{ h.arret_depart }} → {{ h.arret_fin }}</td>
           <td>{{ h.duree }}</td>
           <td>{{ h.details }}</td>
@@ -321,13 +177,13 @@
     </table>
   </div>
   {% else %}
-  <p class="empty-state">Aucun service complété pour l'instant.</p>
+  <p class="empty-state">Aucun service complété.</p>
   {% endif %}
 </section>
 
 <footer>
-  <div>© 2026 Trans_Europe_Rail — Marseille Transport Service</div>
-  <div class="mono">Actualisé en direct</div>
+  <div>© 2026 Marseille Transport Service — Tous droits réservés</div>
+  <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
 </footer>
 
 </body>
