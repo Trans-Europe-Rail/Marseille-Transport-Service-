@@ -61,10 +61,10 @@
   <div class="cmd-section">
     <h2>{{ section.cat }}</h2>
     <div class="cmd-grid">
-      {% for name, desc in section.commands %}
+      {% for cmd in section.commands %}
       <div class="cmd-card">
-        <div class="name">{{ name }}</div>
-        <div class="desc">{{ desc }}</div>
+        <div class="name">{{ cmd[0] }}</div>
+        <div class="desc">{{ cmd[1] }}</div>
       </div>
       {% endfor %}
     </div>
@@ -79,4 +79,3 @@
 
 </body>
 </html>
-
