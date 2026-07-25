@@ -1,6 +1,9 @@
 import os
 import requests
 from flask import Flask, render_template, abort
+import csv
+import os
+from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
 
@@ -100,3 +103,31 @@ def not_found(e):
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     
+FICHIER_FACTURES = "historique_factures.csv"
+
+# Dans ta fonction api_dashboard(), ajoute la lecture des factures :
+    factures = []
+    if os.path.exists(FICHIER_FACTURES):
+        with open(FICHIER_FACTURES, "r", encoding="utf-8") as f:
+            lignes_fac = list(csv.reader(f))
+        if len(lignes_fac) > 1:
+            for row in reversed(lignes_fac[1:]):
+                factures.append({
+                    "date": row[0], "conducteur": row[1], "type": row[2],
+                    "libelle": row[3], "solde_depart": row[4], "montant": row[5], "solde_fin": row[6]
+                })
+
+    return jsonify({
+        "actifs": actifs, 
+        "classement": classement, 
+        "historique": historique, 
+        "historique_complet": historique_complet,
+        "factures": factures
+    })
+
+# Et ajoute la route web pour la page factures :
+@app.route("/factures")
+def page_factures():
+    data = get_dashboard_data()
+    return render_template("factures.html", factures=data.get("factures", []))
+            
