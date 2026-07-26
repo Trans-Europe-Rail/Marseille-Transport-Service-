@@ -54,29 +54,7 @@
     <a href="/factures">Factures</a>
     <a href="/commandes">Commandes</a>
     <a href="/lignes">Lignes</a>
-    <a href="/carte" style="color: var(--gold);">Carte</a>
-  </div>
-</nav>
-<div class="container">
-  <h1>Carte du réseau</h1>
-  <p class="subtitle">Vue d'ensemble de toutes les lignes — clique sur un badge pour voir son trajet complet.</p>
 
-  {% for type, color, items in blocs %}
-  {% if items %}
-  <div class="network-block">
-    <div class="type-label">
-      <div class="type-swatch" style="background:{{ color }};"></div>
-      {{ type }}
-    </div>
-    <div class="badge-grid">
-      {% for numero in items %}
-      <a class="line-badge-link {% if numero|length > 3 %}small-text{% endif %}" href="/lignes/{{ numero }}" style="background:{{ color }};">{{ numero }}</a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-  {% endfor %}
-</div>
 <footer>
   <div>© 2026 Marseille Transport Service — Développé par @Trans_Europe_Rail • Tous Droit Réservé</div>
   <a class="discord-btn" href="https://discord.gg/3qfUvsjWAu" target="_blank" rel="noopener">Rejoindre le Discord</a>
