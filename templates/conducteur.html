@@ -58,12 +58,21 @@
     <a href="/factures">Factures</a>
     <a href="/commandes">Commandes</a>
     <a href="/lignes">Lignes</a>
+    <a href="/carte">Carte</a>
+    
   </div>
 </nav>
 <div class="container">
   <a href="/" class="back">← Retour à l'accueil</a>
   <h1>{{ nom }}</h1>
 
+  {% if service_actif %}
+<div class="live-banner">
+  <div class="pulse-dot"></div>
+  <div class="text"><b>En service actuellement</b> — Ligne {{ service_actif.ligne }} ({{ service_actif.bus }}), départ de {{ service_actif.arret_depart }} à {{ service_actif.heure_debut }}, dépôt {{ service_actif.depot }}</div>
+</div>
+{% endif %}
+  
   {% if fiche %}
   <div class="stats-grid">
     <div class="stat-card">
