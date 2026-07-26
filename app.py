@@ -23,9 +23,12 @@ def couleur_pour_schema(code):
 def build_schema_svg():
     stations_by_line = {}
     for code, l in LIGNES.items():
+        # Optionnel : Filtrer selon le type si demandé
+        if filtre_type and l["type"] != filtre_type:
+            continue
         stations_by_line[code] = [l["depart"]] + l.get("arrets", []) + [l["arrivee"]]
-
-    placed = {}
+        
+        placed = {}
     line_coords = {}
 
     seed = "M1"
