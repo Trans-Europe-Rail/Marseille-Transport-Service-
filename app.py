@@ -298,8 +298,14 @@ def ligne_detail(numero):
 
 @app.route('/carte')
 def carte():
-    schema_svg = build_schema_svg()
-    return render_template('carte.html', schema_svg=schema_svg)
+    return render_template(
+        'carte.html',
+        svg_metro=build_schema_svg("Métro"),
+        svg_tramway=build_schema_svg("Tramway"),
+        svg_bus=build_schema_svg("Bus"),
+        svg_bus_nuit=build_schema_svg("Bus de nuit"),
+        svg_bus_soiree=build_schema_svg("Bus de Soirée")
+    )
 
 @app.errorhandler(404)
 def not_found(e):
