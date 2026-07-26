@@ -20,18 +20,21 @@ def couleur_pour_schema(code):
     r, g, b = colorsys.hsv_to_rgb(h, 0.55, 0.85)
     return f"#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}"
 
-def build_schema_svg():
+def build_schema_svg(filtre_type=None):
     stations_by_line = {}
     for code, l in LIGNES.items():
-        # Optionnel : Filtrer selon le type si demandé
         if filtre_type and l["type"] != filtre_type:
             continue
         stations_by_line[code] = [l["depart"]] + l.get("arrets", []) + [l["arrivee"]]
-        
-        placed = {}
+
+    # Sécurité si aucune ligne ne correspond à la catégorie
+    if not stations_by_line:
+        return Markup('<p style="color: #A3B8CC; padding: 20px;">Aucune ligne disponible pour cette catégorie.</p>')
+
+    placed = {}
     line_coords = {}
 
-    seed = "M1"
+    seed = list(stations_by_line.keys())[0]
     base_y = 460
     for i, name in enumerate(stations_by_line[seed]):
         x = 90 + i * SPACING_SCHEMA
@@ -103,7 +106,7 @@ def build_schema_svg():
         svg.append(f'<text x="{x0}" y="{y0+3.5}" font-size="8.5" font-weight="700" fill="#07111F" text-anchor="middle">{code}</text>')
     svg.append('</svg>')
     return Markup("".join(svg))
-
+        
 app = Flask(__name__)
 
 BOT_API_URL = os.environ.get("BOT_API_URL", "").rstrip("/")
@@ -306,7 +309,7 @@ def carte():
         svg_bus_nuit=build_schema_svg("Bus de nuit"),
         svg_bus_soiree=build_schema_svg("Bus de Soirée")
     )
-
+    
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
