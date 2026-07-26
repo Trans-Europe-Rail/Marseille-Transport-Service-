@@ -2,7 +2,104 @@ import os
 import csv
 import requests
 from flask import Flask, render_template, abort, jsonify
+from markupsafe import Markup
 from lignes_data import LIGNES
+
+import colorsys
+
+CODES_SCHEMA = list(LIGNES.keys())
+SPACING_SCHEMA = 46
+
+def couleur_pour_schema(code):
+    l = LIGNES[code]
+    if l["type"] == "Métro":
+        return "#5bc0eb"
+    if l["type"] == "Tramway":
+        return "#E85D9C"
+    h = (hash(code) % 360) / 360
+    r, g, b = colorsys.hsv_to_rgb(h, 0.55, 0.85)
+    return f"#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}"
+
+def build_schema_svg():
+    stations_by_line = {}
+    for code, l in LIGNES.items():
+        stations_by_line[code] = [l["depart"]] + l.get("arrets", []) + [l["arrivee"]]
+
+    placed = {}
+    line_coords = {}
+
+    seed = "M1"
+    base_y = 460
+    for i, name in enumerate(stations_by_line[seed]):
+        x = 90 + i * SPACING_SCHEMA
+        placed[name] = (x, base_y)
+    line_coords[seed] = [(n, placed[n][0], placed[n][1]) for n in stations_by_line[seed]]
+
+    remaining = set(stations_by_line.keys()) - {seed}
+    jitter = 0
+
+    while remaining:
+        best_code, best_count = None, -1
+        for code in remaining:
+            count = sum(1 for s in stations_by_line[code] if s in placed)
+            if count > best_count:
+                best_code, best_count = code, count
+
+        code = best_code
+        stations = stations_by_line[code]
+        anchor_i, anchor_name = None, None
+        for i, name in enumerate(stations):
+            if name in placed:
+                anchor_i, anchor_name = i, name
+                break
+
+        jitter += 1
+        if anchor_i is None:
+            ax = 90 + (jitter % 30) * 140
+            ay = base_y - 900 - (jitter // 30) * 900
+            for i, name in enumerate(stations):
+                if name not in placed:
+                    placed[name] = (ax, ay + i * SPACING_SCHEMA)
+        else:
+            ax, ay = placed[anchor_name]
+            x_col = ax + ((jitter % 7) - 3) * 14
+            for i, name in enumerate(stations):
+                if name in placed:
+                    continue
+                dy = (i - anchor_i) * SPACING_SCHEMA
+                placed[name] = (x_col, ay + dy)
+
+        line_coords[code] = [(n, placed[n][0], placed[n][1]) for n in stations]
+        remaining.discard(code)
+
+    all_x = [x for pts in line_coords.values() for _, x, y in pts]
+    all_y = [y for pts in line_coords.values() for _, x, y in pts]
+    min_x, min_y = min(all_x), min(all_y)
+    pad = 60
+    shifted = {c: [(n, x - min_x + pad, y - min_y + pad) for n, x, y in pts] for c, pts in line_coords.items()}
+    width = max(x for pts in shifted.values() for _, x, y in pts) + pad
+    height = max(y for pts in shifted.values() for _, x, y in pts) + pad
+
+    svg = [f'<svg viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans, sans-serif">']
+    for code, pts in shifted.items():
+        color = couleur_pour_schema(code)
+        path = " ".join(f"{x},{y}" for _, x, y in pts)
+        svg.append(f'<polyline points="{path}" fill="none" stroke="{color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />')
+    seen = set()
+    for code, pts in shifted.items():
+        for name, x, y in pts:
+            if name in seen:
+                continue
+            seen.add(name)
+            svg.append(f'<circle cx="{x}" cy="{y}" r="4" fill="#07111F" stroke="#FFFFFF" stroke-width="1.5" />')
+            svg.append(f'<text x="{x+7}" y="{y-5}" font-size="8" fill="#F2F0E9" transform="rotate(-30 {x+7} {y-5})">{name}</text>')
+    for code, pts in shifted.items():
+        color = couleur_pour_schema(code)
+        x0, y0 = pts[0][1], pts[0][2]
+        svg.append(f'<circle cx="{x0}" cy="{y0}" r="12" fill="{color}" stroke="#07111F" stroke-width="2.5" />')
+        svg.append(f'<text x="{x0}" y="{y0+3.5}" font-size="8.5" font-weight="700" fill="#07111F" text-anchor="middle">{code}</text>')
+    svg.append('</svg>')
+    return Markup("".join(svg))
 
 app = Flask(__name__)
 
@@ -167,17 +264,18 @@ def conducteur(nom):
     data = get_dashboard_data()
     fiche = next((c for c in data.get("classement", []) if c["nom"] == nom), None)
     services = [h for h in data.get("historique_complet", []) if h["conducteur"] == nom]
+    service_actif = next((a for a in data.get("actifs", []) if a["conducteur"] == nom), None)
 
-    if not fiche and not services:
+    if not fiche and not services and not service_actif:
         abort(404)
 
-    return render_template("conducteur.html", nom=nom, fiche=fiche, services=services)
+    return render_template("conducteur.html", nom=nom, fiche=fiche, services=services, service_actif=service_actif)
 
 @app.route("/api/data")
 def api_data():
     return jsonify(get_dashboard_data())
 
-CATEGORIES_LIGNES = ["Métro", "Tram", "Bus", "Car départemental", "Car régional", "Bus des Collines", "Bus de la Marcouline", "Bus de la Côte Bleue", "Navette maritime"]
+CATEGORIES_LIGNES = ["Métro", "Tramway", "Bus", "Car départemental", "Car régional", "Bus des Collines", "Bus de la Marcouline", "Bus de la Côte Bleue", "Navette maritime"]
 
 @app.route('/lignes')
 def lignes():
@@ -197,28 +295,13 @@ def ligne_detail(numero):
 
 @app.route('/carte')
 def carte():
-    couleurs = {
-        "Métro": "#5bc0eb",
-        "Tramway": "#FF6FA5",
-        "Bus": "#F2A24C",
-        "Car départemental": "#8B7FD4",
-        "Car régional": "#6FCF97",
-        "Bus des Collines": "#D4A574",
-        "Bus de la Marcouline": "#7FB3D5",
-        "Bus de la Côte Bleue": "#5BC0BE",
-        "Navette maritime": "#4FA5D8",
-    }
-    blocs = []
-    for cat in CATEGORIES_LIGNES:
-        items = sorted([num for num, l in LIGNES.items() if l["type"] == cat])
-        blocs.append((cat, couleurs.get(cat, "#5bc0eb"), items))
-    return render_template('carte.html', blocs=blocs)
-    
+    schema_svg = build_schema_svg()
+    return render_template('carte.html', schema_svg=schema_svg)
+
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-
 
